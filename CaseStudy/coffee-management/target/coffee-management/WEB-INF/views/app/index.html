@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,7 +20,7 @@
 <div class="container">
   <div class="row">
     <!-- MENU -->
-    <div class="col-lg-8 border overflow-auto" style="height: 721px;">
+    <div class="col-lg-8 border" style="height: 721px;">
       <!-- MENU HEADER -->
       <div class="row">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -58,27 +58,29 @@
       </div>
 
       <!-- MENU -->
-      <div class="row">
-        <div class="col-md-4 mb-5">
-          <div class="rounded card h-80 text-dark" >
-            <div class="d-flex flex-column h-80 p-5 pb-3 text-shadow-1">
-              <div class="mb-5">
-                <h2 class="fw-bold">Latte</h2>
-                <p class="text-muted">Coffee</p>
-              </div>
-              <ul class="d-flex list-unstyled mt-0">
-                <li class="me-auto">
-                  <button class="btn btn-warning"><i class="fas fa-plus text-white"></i></i></button>
-                </li>
+      <div class="row overflow-auto" style="height: 520px">
+        <th:block th:each="product : ${products}">
+            <div class="col-md-4 mb-5" >
+              <div class="rounded card h-40 text-dark" >
+                <div class="d-flex flex-column h-80 p-2 pb-3 text-shadow-1">
+                  <div class="mb-1">
+                    <h2 class="fw-bold" th:text="${product.product_name}"></h2>
+                    <p class="text-muted" th:text="${product.category.category_name}"></p>
+                  </div>
+                  <img class="text-center img-fluid" th:src="${product.image}" style="width: 150px; height: 150px">
+                  <ul class="d-flex list-unstyled mt-0">
+                    <li class="me-auto">
+                    <button class="btn btn-warning"><i class="fas fa-plus text-white"></i></button></li>
 
-                <li class="d-flex align-items-center">
-                  <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
-                  <small>30.000đ</small>
-                </li>
-              </ul>
+                    <li class="d-flex align-items-center">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                      <strong><small th:text="${product.price}"></small> $</strong>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+        </th:block>
       </div>
     </div>
 

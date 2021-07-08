@@ -22,8 +22,6 @@ public class AppController {
 
     @ModelAttribute("products")
 
-
-
     @GetMapping
     public ModelAndView getAllProductPage() {
         ModelAndView modelAndView = new ModelAndView("/app/index");

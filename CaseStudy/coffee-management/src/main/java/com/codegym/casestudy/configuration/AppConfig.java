@@ -125,5 +125,8 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         registry.addResourceHandler("/resource/**")
                 .addResourceLocations("/resource/")
                 .resourceChain(false);
+        registry.addResourceHandler("/assets/**")
+                .addResourceLocations("/assets/")
+                .resourceChain(false);
     }
 }

@@ -30,6 +30,14 @@ public class Product {
         this.category = category;
     }
 
+    public Product(String product_name, double price, String image, String description, Category category) {
+        this.product_name = product_name;
+        this.price = price;
+        this.image = image;
+        this.description = description;
+        this.category = category;
+    }
+
     public Product(Long product_id, String product_name, Long amount, double price, String image, String description, Category category) {
         this.product_id = product_id;
         this.product_name = product_name;

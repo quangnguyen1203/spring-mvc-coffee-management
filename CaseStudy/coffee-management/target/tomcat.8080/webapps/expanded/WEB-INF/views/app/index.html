@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--  <link rel="stylesheet" href="/resource/fontawesome-free-5.15.3-web/css/all.css">-->
+  <link rel="stylesheet" href="/resource/css/sweetalert2.min.css">
+  <script type="text/javascript" src="/resource/js/sweetalert2.min.js"></script>
+  <script type="text/javascript" src="/resource/js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="/resource/js/jquery.validate-1.19.3.min.js"></script>
+  <script type="text/javascript" src="/resource/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/resource/css/style.css">
+  <link rel="stylesheet" href="/resource/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <!-- MENU -->
+    <div class="col-lg-8 border" style="height: 721px;">
+      <!-- MENU HEADER -->
+      <div class="row">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+            <span class="fs-4 "><h5>myPOS</h5></span>
+          </a>
+
+          <div class="btn btn-primary">Hello</div>
+        </header>
+      </div>
+
+      <!-- CATEGORIES -->
+      <div class="row">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mb-5">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarsExample09">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="#">All items</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Coffee</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#" tabindex="-1">Cold Drinks</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#" tabindex="-1">Hot Drinks</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- MENU -->
+      <div class="row overflow-auto" style="height: 520px">
+        <th:block th:each="product : ${products}">
+            <div class="col-md-4 mb-5" >
+              <div class="rounded card h-40 text-dark" >
+                <div class="d-flex flex-column h-80 p-2 pb-3 text-shadow-1">
+                  <div class="mb-1">
+                    <h2 class="fw-bold" th:text="${product.product_name}"></h2>
+                    <p class="text-muted" th:text="${product.category.category_name}"></p>
+                  </div>
+                  <img class="text-center img-fluid" th:src="${product.image}" style="width: 150px; height: 150px">
+                  <ul class="d-flex list-unstyled mt-0">
+                    <li class="me-auto">
+                    <button class="btn btn-warning"><i class="fas fa-plus text-white"></i></button></li>
+
+                    <li class="d-flex align-items-center">
+                      <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                      <strong><small th:text="${product.price}"></small> $</strong>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </th:block>
+      </div>
+    </div>
+
+
+
+    <!-- ORDER -->
+    <div class="col-lg-4 border rounded">
+      <div class="row">
+        <div class="panel">
+          <div class="panel-heading">
+            <h4 class="d-flex justify-content-between align-items-center ml-5 mt-4 mb-3">
+              <span class="text-warning">Current Order</span>
+              <span class="badge bg-danger rounded-pill">Clear All</span>
+            </h4>
+          </div>
+          <div class="current-order panel-body overflow-auto border">
+            <ul class="list-group mb-3 ">
+              <li class=" d-flex justify-content-between p-3 pb-0 ">
+                <div>
+                  <h6 class="my-0">Product name</h6>
+                  <small class="text-muted">Brief description</small>
+                </div>
+                <div>
+                  <p><i class="fas fa-minus btn btn-outline-dark"></i>
+                    <span> 1 </span>
+                    <i class="fas fa-plus btn btn-outline-dark"></i>
+                  </p>
+                </div>
+                <span class="text-muted">$12</span>
+              </li>
+            </ul>
+          </div>
+
+
+          <div class="panel-body border">
+            <div class="d-flex justify-content-between p-3 pb-0">
+              <p>Subtotal</p>
+              <p><strong>30000đ</strong></p>
+            </div>
+            <div class="d-flex justify-content-between p-3 pb-0">
+              <p>Discounts</p>
+              <p><strong>10%</strong></p>
+            </div>
+            <div class="d-flex justify-content-between p-3 pb-0">
+              <p>Sales Tax</p>
+              <p><strong>4.500đ</strong></p>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between p-3 pb-0">
+              <h5>Subtotal</h5>
+              <h5><strong>30000đ</strong></h5>
+            </div>
+          </div>
+
+          <div class="panel-body border">
+            <div class="d-flex justify-content-between p-3 pb-0">
+              <h5>Received</h5>
+              <h5><strong>30000đ</strong></h5>
+            </div>
+            <div class="d-flex justify-content-between p-3 pb-0">
+              <h5>Balance</h5>
+              <h5><strong style="color: red;">30000đ</strong></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+  </div>
+  <div class="row">
+    <footer class="footer mt-auto p-3 border rounded">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 p-1 border-right d-flex justify-content-around align-items-center">
+            <div class="">
+              <h5>Staff name</h5>
+              <i class="fas fa-user"></i>
+            </div>
+
+            <button class="btn btn-warning text-white">Setting</button>
+          </div>
+          <div class="col-lg-4 p-1  d-flex justify-content-around align-items-center">
+            <div class="">
+              <button class="btn btn-outline-dark ">Voucher 1</button>
+              <button class="btn btn-outline-dark">Voucher 2</button>
+              <button class="btn btn-outline-dark">Voucher 3</button>
+              <button class="btn btn-outline-dark">Voucher 3</button>
+              <button class="btn btn-outline-dark">Voucher 3</button>
+              <button class="btn btn-outline-dark">Voucher 3</button>
+              <button class="btn btn-outline-dark">Voucher 3</button>
+            </div>
+          </div>
+          <div class="col-lg-4 p-1 d-flex justify-content-around align-items-center">
+            <button class="btn btn-warning w-100 h-100 text-white">
+              Payment
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+<script></script>
+</body>
+</html>

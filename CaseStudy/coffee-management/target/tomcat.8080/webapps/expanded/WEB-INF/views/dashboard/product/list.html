@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/dashboard/layout/head::head">
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+  <th:block th:replace="/dashboard/layout/side-bar::side-bar"></th:block>
+
+  <!-- ============================================================== -->
+  <!-- Start Page Content here -->
+  <!-- ============================================================== -->
+
+  <div class="content-page">
+    <div class="content">
+
+      <!-- Start Content-->
+      <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+          <div class="col-12" style="margin-top: 10px;">
+            <div class="page-title-box">
+              <h4 class="page-title">Product Table</h4>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="header-title mb-4">Product List</h4>
+                <div class="table-responsive">
+                  <table class="table table-centered mb-0 table-nowrap" id="inline-editable productList">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th class="text-center">Image</th>
+                      <th>Description</th>
+                      <th>Category</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody th:each="product : ${products}">
+                    <tr th:id="'row'+${product.product_id}">
+                      <input hidden th:id="${product.product_id}">
+                      <td th:text="${product.product_name}"></td>
+                      <td th:text="${product.price} + ' $'"></td>
+                      <td class="text-center">
+                        <img th:src="${product.image}" alt="picture" style="width: auto; height: 100px">
+                      </td>
+                      <td th:text="${product.description}"></td>
+                      <td th:text="${product.category.category_name}"></td>
+                      <td class="text-center">
+                        <button th:value="${product.product_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="far fa-edit"></i>Edit</button>
+                        <button th:value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- end .table-responsive-->
+              </div>
+              <!-- end card-body -->
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+
+      </div>
+      <!-- end container-fluid -->
+
+    </div>
+    <!-- end content -->
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Page content -->
+  <!-- ============================================================== -->
+
+</div>
+<!-- END wrapper -->
+<div th:replace="/dashboard/layout/editModal::editModal"></div>
+</body>
+<th:block th:replace="/dashboard/layout/script::script"></th:block>
+
+<script>
+    function editProduct(){
+      let productID = $(this).attr("value");
+      $.ajax({
+        type: "GET",
+        url: `/products/edit-product/${productID}`,
+        success:function (product){
+            $('#upID').val(product.product_id);
+            $('#upProductName').val(product.product_name);
+            $('#upPrice').val(product.price);
+            $('#upDescription').val(product.description);
+            $('#avatar').attr("src",product.image);
+            $('#img64').attr("value",product.image);
+            $('#upCategory').val(product.category.category_id);
+            $('#editModal').modal('show');
+
+        }
+      })
+    }
+
+    function saveProduct(){
+        let product_id = $("#upID").val();
+        let product_name = $("#upProductName").val();
+        let price = $("#upPrice").val();
+        let description = $("#upDescription").val();
+        let category = $("#upCategory").val();
+        let img64 = $("#img64").val();
+        let newCategory = {
+          category_id : category
+        }
+
+        let product = {
+          product_id:product_id,
+          product_name : product_name,
+          price : price,
+          description : description,
+          image : img64,
+          category : newCategory
+        }
+
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        type: "PUT",
+        data: JSON.stringify(product),
+        url: `/products/edit/${product_id}`,
+        success: function (product) {
+          $('#row'+product_id+ ' td').remove();
+          $('#row'+product_id).html(`
+                        <td>${product.product_name}</td>
+                        <td>${product.price}</td>
+                        <td class="text-center">
+                            <img src="${product.image}" alt="picture" style="width: auto; height: 100px">
+                        </td>
+                        <td>${product.description}</td>
+                        <td>${product.category.category_name}</td>
+                        <td class="text-center">
+                            <button value="${product.product_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="fas fa-edit"></i>Edit</button>
+                            <button value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
+                        </td>`);
+          $(".edit-button").on("click",editProduct);
+          $(".delete-button").on("click",deleteConfirm);
+          $('#editModal').modal("hide");
+          App.showSuccessAlert("Edit product successfully!")
+          $("#edit-product")[0].reset();
+        }
+      })
+    }
+
+    function deleteConfirm() {
+      let productID = $(this).attr("value");
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonColor: '#3085d6',
+        denyButtonColor: '#d33',
+        denyButtonText :`Cancel`,
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //Gọi ajax
+          $.ajax({
+            type: "DELETE",
+            //tên API
+            url: `/products/${productID}`,
+            //xử lý khi thành công
+            success: function () {
+              console.log("abc");
+              // $(`#row${data.id}`).html("");
+              $("#row" + productID).remove();
+
+              Swal.fire(
+                      'Deleted!',
+                      'Your file has been deleted.',
+                      'success'
+              )
+            }
+          })
+        }
+      })
+    }
+
+
+    $(".edit-button").on("click",editProduct);
+    $(".save-customer").on("click",saveProduct);
+    $(".delete-button").on("click",deleteConfirm);
+</script>
+</html>

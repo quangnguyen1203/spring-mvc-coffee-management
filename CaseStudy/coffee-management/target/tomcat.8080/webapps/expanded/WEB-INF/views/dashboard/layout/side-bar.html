@@ -1,0 +1,179 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="side-bar">
+    <!-- Topbar Start -->
+    <div class="navbar-custom">
+        <ul class="list-unstyled topnav-menu float-right mb-0">
+            <li class="dropdown notification-list">
+                <a th:href="@{/products}" class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="/assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
+                    <span class="pro-user-name ml-1">
+                                Thompson   <i class="mdi mdi-chevron-down"></i>
+                            </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                    <!-- item-->
+                    <div class="dropdown-header noti-title">
+                        <h6 class="text-overflow m-0">Welcome !</h6>
+                    </div>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <i class="mdi mdi-account-outline"></i>
+                        <span>Profile</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <i class="mdi mdi-settings-outline"></i>
+                        <span>Settings</span>
+                    </a>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <i class="mdi mdi-lock-outline"></i>
+                        <span>Lock Screen</span>
+                    </a>
+
+                    <div class="dropdown-divider"></div>
+
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <i class="mdi mdi-logout-variant"></i>
+                        <span>Logout</span>
+                    </a>
+
+                </div>
+            </li>
+        </ul>
+
+        <!-- LOGO -->
+        <div class="logo-box">
+            <a th:href="@{/products}" class="logo text-center logo-dark">
+                        <span class="logo-lg">
+                            <img src="/assets/images/logo-dark.png" alt="" height="18">
+                            <!-- <span class="logo-lg-text-dark">Velonic</span> -->
+                        </span>
+                <span class="logo-sm">
+                            <!-- <span class="logo-lg-text-dark">V</span> -->
+                            <img src="/assets/images/logo-sm.png" alt="" height="22">
+                        </span>
+            </a>
+
+            <a th:href="@{/products}" class="logo text-center logo-light">
+                        <span class="logo-lg">
+                            <img src="/assets/images/logo-light.png" alt="" height="18">
+                            <!-- <span class="logo-lg-text-dark">Velonic</span> -->
+                        </span>
+                <span class="logo-sm">
+                            <!-- <span class="logo-lg-text-dark">V</span> -->
+                            <img src="/assets/images/logo-sm.png" alt="" height="22">
+                        </span>
+            </a>
+        </div>
+
+        <!-- LOGO -->
+
+
+        <ul class="list-unstyled topnav-menu topnav-menu-left m-0">
+            <li>
+                <button class="button-menu-mobile waves-effect">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+            </li>
+
+            <!--            <li class="d-none d-lg-block">-->
+            <!--                <form class="app-search">-->
+            <!--                    <div class="app-search-box">-->
+            <!--                        <div class="input-group">-->
+            <!--                            <input type="text" class="form-control" placeholder="Search...">-->
+            <!--                            <div class="input-group-append">-->
+            <!--                                <button class="btn" type="submit">-->
+            <!--                                    <i class="fas fa-search"></i>-->
+            <!--                                </button>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </form>-->
+            <!--            </li>-->
+        </ul>
+    </div>
+    <!-- end Topbar --> <!-- ========== Left Sidebar Start ========== -->
+    <div class="left-side-menu">
+
+        <div class="slimscroll-menu">
+
+            <!--- Sidemenu -->
+            <div id="sidebar-menu">
+                <ul class="metismenu" id="side-menu">
+
+                    <li class="menu-title">Navigation</li>
+
+                    <li>
+                        <a  th:href="@{/products}" class="waves-effect">
+                            <i class="ion-md-speedometer"></i>
+                            <span >  Dashboard  </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="waves-effect">
+                            <i class="fas fa-tasks"></i>
+                            <span> Product </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a th:href="@{/products/listProduct}">List Product</a></li>
+                            <li><a th:href="@{/products/create-product}">Create Product</a></li>
+                            <li><a th:href="@{/products/hiddenProduct}">Hidden Product</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="waves-effect">
+                            <i class="fas fa-users"></i>
+                            <span> User </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="#">List User</a></li>
+                            <li><a href="#">Create User</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="waves-effect">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span> Category </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="#">List Category</a></li>
+                            <li><a href="#">Create Category</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="waves-effect">
+                            <i class="fas fa-coins"></i>
+                            <span> Voucher </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a href="#">List Voucher</a></li>
+                            <li><a href="#">Create Voucher</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- End Sidebar -->
+
+            <div class="clearfix"></div>
+
+        </div>
+        <!-- Sidebar -left -->
+
+    </div>
+    <!-- Left Sidebar End -->
+</div>
+</html>

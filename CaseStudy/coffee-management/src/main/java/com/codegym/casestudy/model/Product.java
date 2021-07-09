@@ -1,5 +1,7 @@
 package com.codegym.casestudy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,10 @@ public class Product {
     private double price;
     private String image;
     private String description;
+
+    @JsonIgnore
+    @Column(columnDefinition = "boolean default false")
+    private boolean isDelete;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -45,6 +51,27 @@ public class Product {
         this.price = price;
         this.image = image;
         this.description = description;
+        this.category = category;
+    }
+
+    public Product(String product_name, Long amount, double price, String image, String description, boolean isDelete, Category category) {
+        this.product_name = product_name;
+        this.amount = amount;
+        this.price = price;
+        this.image = image;
+        this.description = description;
+        this.isDelete = isDelete;
+        this.category = category;
+    }
+
+    public Product(Long product_id, String product_name, Long amount, double price, String image, String description, boolean isDelete, Category category) {
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.amount = amount;
+        this.price = price;
+        this.image = image;
+        this.description = description;
+        this.isDelete = isDelete;
         this.category = category;
     }
 
@@ -102,5 +129,13 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 }

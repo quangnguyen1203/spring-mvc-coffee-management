@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/dashboard/layout/head::head">
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+  <th:block th:replace="/dashboard/layout/side-bar::side-bar"></th:block>
+
+  <!-- ============================================================== -->
+  <!-- Start Page Content here -->
+  <!-- ============================================================== -->
+
+  <div class="content-page">
+    <div class="content">
+
+      <!-- Start Content-->
+      <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+          <div class="col-12" style="margin-top: 10px;">
+            <div class="page-title-box">
+              <h4 class="page-title">Product Table</h4>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="header-title mb-4">Product List</h4>
+                <div class="table-responsive">
+                  <table class="table table-centered mb-0 table-nowrap" id="inline-editable productList">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th class="text-center">Image</th>
+                      <th>Description</th>
+                      <th>Category</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody th:each="product : ${hiddenProducts}">
+                    <tr th:id="'row'+${product.product_id}">
+                      <input hidden th:id="${product.product_id}">
+                      <td th:text="${product.product_name}"></td>
+                      <td th:text="${product.price} + ' $'"></td>
+                      <td class="text-center">
+                        <img th:src="${product.image}" alt="picture" style="width: auto; height: 100px">
+                      </td>
+                      <td th:text="${product.description}"></td>
+                      <td th:text="${product.category.category_name}"></td>
+                      <td class="text-center">
+                        <button th:value="${product.product_id}" class="btn btn-outline-primary mr-2 delete-button" ><i class="far fa-edit"></i>Restore</button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- end .table-responsive-->
+              </div>
+              <!-- end card-body -->
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+
+      </div>
+      <!-- end container-fluid -->
+
+    </div>
+    <!-- end content -->
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Page content -->
+  <!-- ============================================================== -->
+
+</div>
+<!-- END wrapper -->
+<div th:replace="/dashboard/layout/editModal::editModal"></div>
+</body>
+<th:block th:replace="/dashboard/layout/script::script"></th:block>
+
+<script>
+  function deleteConfirm() {
+    let productID = $(this).attr("value");
+    App.showDeleteConfirmDialog()
+    .then((result) => {
+      if (result.isConfirmed) {
+        //Gọi ajax
+        $.ajax({
+          type: "POST",
+          //tên API
+          url: `/products/${productID}`,
+          //xử lý khi thành công
+          success: function () {
+            // $(`#row${data.id}`).html("");
+            $("#row" + productID).remove();
+
+            Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+            )
+          }
+        })
+      }
+    })
+  }
+
+  $(".delete-button").on("click",deleteConfirm);
+</script>
+</html>

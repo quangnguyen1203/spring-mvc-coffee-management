@@ -62,7 +62,7 @@
                       <td th:text="${product.category.category_name}"></td>
                       <td class="text-center">
                         <button th:value="${product.product_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="far fa-edit"></i>Edit</button>
-                        <button th:value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Delete</button>
+                        <button th:value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
                       </td>
                     </tr>
                     </tbody>
@@ -137,7 +137,6 @@
         }
 
       $.ajax({
-
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -156,10 +155,11 @@
                         <td>${product.description}</td>
                         <td>${product.category.category_name}</td>
                         <td class="text-center">
-                            <button value="${product.product_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="far fa-edit"></i>Edit</button>
-                            <button value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Delete</button>
+                            <button value="${product.product_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="fas fa-edit"></i>Edit</button>
+                            <button value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
                         </td>`);
           $(".edit-button").on("click",editProduct);
+          $(".delete-button").on("click",deleteConfirm);
           $('#editModal').modal("hide");
           App.showSuccessAlert("Edit product successfully!")
           $("#edit-product")[0].reset();
@@ -169,7 +169,6 @@
 
     function deleteConfirm() {
       let productID = $(this).attr("value");
-      // goi ajax
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -181,12 +180,14 @@
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
+          //Gọi ajax
           $.ajax({
             type: "DELETE",
             //tên API
             url: `/products/${productID}`,
             //xử lý khi thành công
-            success: function (data) {
+            success: function () {
+              console.log("abc");
               // $(`#row${data.id}`).html("");
               $("#row" + productID).remove();
 

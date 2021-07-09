@@ -20,6 +20,16 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public Iterable<Product> findAllProduct_idDesc() {
+        return productRepository.findAllProduct_idDesc();
+    }
+
+    @Override
+    public void restoreProductById(Long id) {
+        productRepository.restoreProductById(id);
+    }
+
+    @Override
     public Iterable<Product> findAll() {
         return productRepository.findAll();
     }
@@ -36,6 +46,8 @@ public class ProductService implements IProductService{
 
     @Override
     public void remove(Long id) {
-        productRepository.deleteById(id);
+        productRepository.deleteProductById(id);
     }
+
+
 }

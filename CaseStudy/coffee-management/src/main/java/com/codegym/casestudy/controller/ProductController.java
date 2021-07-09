@@ -80,4 +80,23 @@ public class ProductController {
         productService.remove(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Product> restoreProduct(@PathVariable Long id) {
+        Optional<Product> productOptional = productService.findById(id);
+        if (!productOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        productService.restoreProductById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+
+    @GetMapping("/hiddenProduct")
+    public ModelAndView getAllProductHiddenPage() {
+        ModelAndView modelAndView = new ModelAndView("/dashboard/product/hiddenList");
+        modelAndView.addObject("hiddenProducts",productService.findAllProduct_idDesc());
+        return modelAndView;
+    }
 }

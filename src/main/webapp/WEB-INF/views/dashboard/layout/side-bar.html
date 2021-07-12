@@ -135,8 +135,8 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
-                            <li><a href="#">List User</a></li>
-                            <li><a href="#">Create User</a></li>
+                            <li><a th:href="@{/users/list-user}">List User</a></li>
+                            <li><a th:href="@{/users/create-user}">Create User</a></li>
                         </ul>
                     </li>
 
@@ -159,8 +159,9 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
-                            <li><a href="#">List Voucher</a></li>
-                            <li><a href="#">Create Voucher</a></li>
+                            <li><a th:href="@{/vouchers/listVoucher}">List Voucher</a></li>
+                            <li><a th:href="@{/vouchers/create-voucher}">Create Voucher</a></li>
+                            <li><a th:href="@{/vouchers/hiddenVoucher}">Expired Voucher</a></li>
                         </ul>
                     </li>
                 </ul>

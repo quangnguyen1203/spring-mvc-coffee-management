@@ -32,9 +32,8 @@ public class ProductController {
 
     @GetMapping
     public ModelAndView homePage() {
-        ModelAndView modelAndView = new ModelAndView("/dashboard/home");
-//        modelAndView.addObject("products",productService.findAll());
-        return modelAndView;
+        //        modelAndView.addObject("products",productService.findAll());
+        return new ModelAndView("/dashboard/home");
     }
 
     @GetMapping("/listProduct")

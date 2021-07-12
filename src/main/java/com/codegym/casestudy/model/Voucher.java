@@ -1,9 +1,11 @@
 package com.codegym.casestudy.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity
 @Table(name = "vouchers")
@@ -13,24 +15,27 @@ public class Voucher {
     private Long voucher_id;
     private String voucher_name;
     private double percent_discount;
-    private Date release_date;
-    private Date expiration_date;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private String release_date;
+
+    private String expiration_date;
 
     @JsonIgnore
     @Column(columnDefinition = "boolean default false")
-    private boolean isDelete;
+    private boolean isExpired;
 
     public Voucher() {
     }
 
-    public Voucher(String voucher_name, double percent_discount, Date release_date, Date expiration_date) {
+    public Voucher(String voucher_name, double percent_discount, String release_date, String expiration_date) {
         this.voucher_name = voucher_name;
         this.percent_discount = percent_discount;
         this.release_date = release_date;
         this.expiration_date = expiration_date;
     }
 
-    public Voucher(Long voucher_id, String voucher_name, double percent_discount, Date release_date, Date expiration_date) {
+    public Voucher(Long voucher_id, String voucher_name, double percent_discount, String release_date, String expiration_date) {
         this.voucher_id = voucher_id;
         this.voucher_name = voucher_name;
         this.percent_discount = percent_discount;
@@ -38,21 +43,21 @@ public class Voucher {
         this.expiration_date = expiration_date;
     }
 
-    public Voucher(String voucher_name, double percent_discount, Date release_date, Date expiration_date, boolean isDelete) {
+    public Voucher(String voucher_name, double percent_discount, String release_date, String expiration_date, boolean isExpired) {
         this.voucher_name = voucher_name;
         this.percent_discount = percent_discount;
         this.release_date = release_date;
         this.expiration_date = expiration_date;
-        this.isDelete = isDelete;
+        this.isExpired = isExpired;
     }
 
-    public Voucher(Long voucher_id, String voucher_name, double percent_discount, Date release_date, Date expiration_date, boolean isDelete) {
+    public Voucher(Long voucher_id, String voucher_name, double percent_discount, String release_date, String expiration_date, boolean isExpired) {
         this.voucher_id = voucher_id;
         this.voucher_name = voucher_name;
         this.percent_discount = percent_discount;
         this.release_date = release_date;
         this.expiration_date = expiration_date;
-        this.isDelete = isDelete;
+        this.isExpired = isExpired;
     }
 
     public Long getVoucher_id() {
@@ -79,27 +84,27 @@ public class Voucher {
         this.percent_discount = percent_discount;
     }
 
-    public Date getRelease_date() {
+    public String getRelease_date() {
         return release_date;
     }
 
-    public void setRelease_date(Date release_date) {
+    public void setRelease_date(String release_date) {
         this.release_date = release_date;
     }
 
-    public Date getExpiration_date() {
+    public String getExpiration_date() {
         return expiration_date;
     }
 
-    public void setExpiration_date(Date expiration_date) {
+    public void setExpiration_date(String expiration_date) {
         this.expiration_date = expiration_date;
     }
 
-    public boolean isDelete() {
-        return isDelete;
+    public boolean isExpired() {
+        return isExpired;
     }
 
-    public void setDelete(boolean delete) {
-        isDelete = delete;
+    public void setExpired(boolean expired) {
+        isExpired = expired;
     }
 }

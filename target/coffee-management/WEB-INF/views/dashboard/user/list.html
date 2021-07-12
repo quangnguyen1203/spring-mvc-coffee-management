@@ -31,30 +31,30 @@
                 <div class="table-responsive">
                   <table class="table table-centered mb-0 table-nowrap" id="inline-editable productList">
                     <thead>
-                    <tr>
-                      <th class="text-center">Image</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Phone Number</th>
-                      <th>Role</th>
-                      <th class="text-center">Action</th>
-                    </tr>
+                      <tr>
+                        <th class="text-center">Image</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Role</th>
+                        <th class="text-center">Action</th>
+                      </tr>
                     </thead>
                     <tbody th:each="user : ${users}">
-                    <tr th:id="'row'+${user.user_id}">
-                      <input hidden th:id="${user.user_id}">
-                      <td class="text-center">
-                        <img th:src="${user.image}" alt="picture" style="width: auto; height: 100px">
-                      </td>
-                      <td th:text="${user.user_name}"></td>
-                      <td th:text="${user.email}"></td>
-                      <td th:text="${user.phoneNumber}"></td>
-                      <td th:text="${user.role.role_name}"></td>
-                      <td class="text-center">
-                        <button th:value="${user.user_id}" class="btn btn-outline-primary mr-2 edit-user-button" ><i class="far fa-edit"></i>Edit</button>
-                        <button th:value="${user.user_id}" class="btn btn-outline-danger delete-user-button" ><i class="fas fa-trash-alt"></i>Delete</button>
-                      </td>
-                    </tr>
+                      <tr th:id="'row'+${user.user_id}">
+                          <input hidden th:id="${user.user_id}">
+                          <td class="text-center">
+                            <img th:src="${user.image}" alt="picture" style="width: auto; height: 100px">
+                          </td>
+                          <td th:text="${user.user_name}"></td>
+                          <td th:text="${user.email}"></td>
+                          <td th:text="${user.phoneNumber}"></td>
+                          <td th:text="${user.role.role_name}"></td>
+                          <td class="text-center">
+                            <button th:value="${user.user_id}" class="btn btn-outline-primary mr-2 edit-user-button" ><i class="far fa-edit"></i>Edit</button>
+                            <button th:value="${user.user_id}" class="btn btn-outline-danger delete-user-button" ><i class="fas fa-trash-alt"></i>Delete</button>
+                          </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -77,7 +77,7 @@
   <!-- ============================================================== -->
 </div>
 <!-- END wrapper -->
-<div th:replace="/dashboard/layout/editUserModel::editUserModal"></div>
+<div th:replace="/dashboard/layout/editModalUser::editModalUser"></div>
 </body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
 <script>

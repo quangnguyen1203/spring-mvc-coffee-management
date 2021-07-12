@@ -1,4 +1,5 @@
 package com.codegym.casestudy.controller;
+
 import com.codegym.casestudy.model.Role;
 import com.codegym.casestudy.model.User;
 import com.codegym.casestudy.serivce.role.IRoleService;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
 
+
     @Autowired
     private IUserService userService;
     @Autowired
@@ -23,16 +25,16 @@ public class UserController {
         return roleService.findAll();
     }
 
-    @RequestMapping("/list-user")
+    @GetMapping("/list-user")
     public ModelAndView getAllUser(){
-        ModelAndView modelAndView = new ModelAndView("/dashboard/user/listUser");
+        ModelAndView modelAndView = new ModelAndView("/dashboard/user/list");
         modelAndView.addObject("users",userService.findAllByOrderByRole_id());
         return modelAndView;
     }
 
     @GetMapping("/create-user")
     public ModelAndView showCreateForm() {
-        ModelAndView modelAndView = new ModelAndView("/dashboard/user/createUser");
+        ModelAndView modelAndView = new ModelAndView("/dashboard/user/create");
         modelAndView.addObject("user", new User());
         return modelAndView;
     }

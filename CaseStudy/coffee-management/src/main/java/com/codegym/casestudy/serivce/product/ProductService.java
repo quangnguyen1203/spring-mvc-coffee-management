@@ -4,10 +4,11 @@ import com.codegym.casestudy.model.Product;
 import com.codegym.casestudy.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-
+@Transactional
 @Service
 public class ProductService implements IProductService{
 

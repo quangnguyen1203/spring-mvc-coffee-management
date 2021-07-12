@@ -91,8 +91,6 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
-
     @GetMapping("/hiddenProduct")
     public ModelAndView getAllProductHiddenPage() {
         ModelAndView modelAndView = new ModelAndView("/dashboard/product/hiddenList");

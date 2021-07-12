@@ -32,4 +32,9 @@ public class UserService implements IUserService {
     public void remove(Long id) {
         userRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<User> findAllByOrderByRole_id() {
+        return userRepository.findAllByOrderByRole_id();
+    }
 }

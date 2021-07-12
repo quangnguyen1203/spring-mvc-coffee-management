@@ -16,7 +16,6 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.isDelete = FALSE order by p.product_id desc")
     Iterable<Product> findAllByOrderByProduct_idDesc();
 
-    @Transactional
     @Modifying
     @Query("update Product p set p.isDelete = true where p.product_id = :id")
     void deleteProductById(@Param("id") Long id);
@@ -24,7 +23,6 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product p where p.isDelete = true order by p.product_id desc")
     Iterable<Product> findAllProduct_idDesc();
 
-    @Transactional
     @Modifying
     @Query("update Product p set p.isDelete = false where p.product_id = :id")
     void restoreProductById(@Param("id") Long id);

@@ -1,10 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/dashboard/layout/head::head">
 </head>
+
 <body>
 
+<!-- Begin page -->
+<div id="wrapper">
+
+    <th:block th:replace="/dashboard/layout/side-bar::side-bar"></th:block>
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="row">
+                <div class="col-lg-12" style="margin-top: 10px;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mb-4">Create Voucher</h4>
+
+                            <form class="parsley-examples" id="create-form">
+                                <div class="form-group">
+                                    <label>Voucher Name<span class="text-danger">*</span></label>
+                                    <input type="text" name="voucher_name" parsley-trigger="change" required="" placeholder="Enter voucher name" class="form-control" id="voucher_name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Percent Discount (%)<span class="text-danger">*</span></label>
+                                    <input type="text" name="percent_discount" parsley-trigger="change" required="" placeholder="Enter percent discount" class="form-control" id="percent_discount">
+                                </div>
+                                <div class="form-group">
+                                    <label>Release Date<span class="text-danger">*</span></label>
+                                    <input name="release_date" type="date" placeholder="Enter release date" required="" class="form-control" id="release_date">
+                                </div>
+                                <div class="form-group">
+                                    <label>Expiration Date<span class="text-danger">*</span></label>
+                                    <input name="expiration_date" type="date" placeholder="Enter expiration date" required="" class="form-control" id="expiration_date">
+                                </div>
+
+                                <div class="form-group text-right mb-0">
+                                    <button class="btn btn-primary waves-effect waves-light mr-1" id="create-button" type="button">
+                                        Submit
+                                    </button>
+                                    <button type="reset" class="btn btn-secondary waves-effect waves-light">
+                                        Cancel
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end container-fluid -->
+
+        </div>
+        <!-- end content -->
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+</div>
 </body>
+<th:block th:replace="/dashboard/layout/script::script"></th:block>
+<script>
+    function createVoucher(){
+        let voucher_name = $("#voucher_name").val();
+        let percent_discount = $("#percent_discount").val();
+        let release_date = $("#release_date").val();
+        let expiration_date = $("#expiration_date").val();
+
+        let voucher = {
+            voucher_name: voucher_name,
+            percent_discount: percent_discount,
+            release_date : release_date,
+            expiration_date : expiration_date
+        }
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(voucher),
+            url: "/vouchers/create-voucher",
+            success: function (){
+                $("#create-form")[0].reset();
+                App.showSuccessAlert("Create new voucher successfully!");
+            }
+        })
+    }
+
+    $("#create-button").on("click",createVoucher);
+</script>
 </html>

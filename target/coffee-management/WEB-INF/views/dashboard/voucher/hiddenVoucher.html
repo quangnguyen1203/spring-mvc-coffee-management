@@ -1,10 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/dashboard/layout/head::head">
 </head>
+
 <body>
 
+<!-- Begin page -->
+<div id="wrapper">
+
+    <th:block th:replace="/dashboard/layout/side-bar::side-bar"></th:block>
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12" style="margin-top: 10px;">
+                        <div class="page-title-box">
+                            <h4 class="page-title">Voucher Table</h4>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="header-title mb-4">Voucher List</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-centered mb-0 table-nowrap" id="inline-editable voucherList">
+                                        <thead>
+                                            <tr>
+                                                <th>Voucher Name</th>
+                                                <th class="text-center">Percent Discount (%)</th>
+                                                <th>Release Date</th>
+                                                <th>Expiration Date</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody th:each="voucher: ${hiddenVouchers}">
+                                            <tr th:id="'row'+${voucher.voucher_id}">
+                                                <input hidden th:id="${voucher.voucher_id}">
+                                                <td th:text="${voucher.voucher_name}"></td>
+                                                <td class="text-center" th:text="${voucher.percent_discount}"></td>
+                                                <td th:text="${voucher.release_date}"></td>
+                                                <td th:text="${voucher.expiration_date}"></td>
+                                                <td class="text-center">
+                                                    <button th:value="${voucher.voucher_id}" class="btn btn-outline-primary mr-2 delete-button" ><i class="far fa-edit"></i>Restore</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- end .table-responsive-->
+                            </div>
+                            <!-- end card-body -->
+                        </div>
+                        <!-- end card -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+
+            </div>
+            <!-- end container-fluid -->
+
+        </div>
+        <!-- end content -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+</div>
+<!-- END wrapper -->
+<div th:replace="/dashboard/layout/editModalProduct::editModalProduct"></div>
 </body>
+<th:block th:replace="/dashboard/layout/script::script"></th:block>
+
+<script>
+    function deleteConfirm() {
+        let voucherID = $(this).attr("value");
+        App.showDeleteConfirmDialog()
+            .then((result) => {
+                if (result.isConfirmed) {
+                    //Gọi ajax
+                    $.ajax({
+                        type: "POST",
+                        //tên API
+                        url: `/vouchers/${voucherID}`,
+                        //xử lý khi thành công
+                        success: function () {
+                            // $(`#row${data.id}`).html("");
+                            $("#row" + voucherID).remove();
+
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                        }
+                    })
+                }
+            })
+    }
+
+    $(".delete-button").on("click",deleteConfirm);
+</script>
 </html>

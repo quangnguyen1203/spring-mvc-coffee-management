@@ -1,0 +1,33 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script th:fragment="createVoucher">
+  function createVoucher(){
+    let voucher_name = $("#voucher_name").val();
+    let percent_discount = $("#percent_discount").val();
+    let release_date = $("#release_date").val();
+    let expiration_date = $("#expiration_date").val();
+
+    let voucher = {
+      voucher_name: voucher_name,
+      percent_discount: percent_discount,
+      release_date : release_date,
+      expiration_date : expiration_date
+    }
+
+    $.ajax({
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      type: "POST",
+      data: JSON.stringify(voucher),
+      url: "/vouchers/create-voucher",
+      success: function (){
+        $("#create-form")[0].reset();
+        App.showSuccessAlert("Create new voucher successfully!");
+      }
+    })
+  }
+
+  $("#create-button").on("click",createVoucher);
+</script>
+</html>>

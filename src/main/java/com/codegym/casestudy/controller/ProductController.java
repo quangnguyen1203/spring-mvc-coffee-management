@@ -7,6 +7,9 @@ import com.codegym.casestudy.serivce.app.IAppService;
 import com.codegym.casestudy.serivce.category.ICategoryService;
 import com.codegym.casestudy.serivce.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,9 +41,15 @@ public class ProductController {
 
     @GetMapping("/listProduct")
     public ModelAndView getAllProductPage() {
+        Iterable<Product> productPage = productService.findAllByOrderByProduct_idDesc();
         ModelAndView modelAndView = new ModelAndView("/dashboard/product/list");
-        modelAndView.addObject("products",productService.findAllByOrderByProduct_idDesc());
+        modelAndView.addObject("products",productPage);
         return modelAndView;
+    }
+
+    @GetMapping("/listProductForPaging")
+    public ResponseEntity<Iterable<Product>> getAll(){
+        return new ResponseEntity<>(productService.findAll(),HttpStatus.OK);
     }
 
     @GetMapping("/create-product")
@@ -97,5 +106,12 @@ public class ProductController {
         ModelAndView modelAndView = new ModelAndView("/dashboard/product/hiddenList");
         modelAndView.addObject("hiddenProducts",productService.findAllProduct_idDesc());
         return modelAndView;
+    }
+
+    @GetMapping("/findProduct/{id}")
+    public ResponseEntity<Product> findById(@PathVariable Long id){
+        Product product = productService.findById(id).get();
+        product.setAmount(1L);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 }

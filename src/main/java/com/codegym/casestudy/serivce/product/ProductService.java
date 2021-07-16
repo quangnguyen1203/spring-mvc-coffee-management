@@ -3,8 +3,14 @@ package com.codegym.casestudy.serivce.product;
 import com.codegym.casestudy.model.Product;
 import com.codegym.casestudy.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.xml.ws.Response;
 import java.util.Optional;
 
 
@@ -29,6 +35,8 @@ public class ProductService implements IProductService{
         productRepository.restoreProductById(id);
     }
 
+
+
     @Override
     public Iterable<Product> findAll() {
         return productRepository.findAll();
@@ -47,6 +55,11 @@ public class ProductService implements IProductService{
     @Override
     public void remove(Long id) {
         productRepository.deleteProductById(id);
+    }
+
+    @Override
+    public Iterable<Product> findAllByCategoryCategory_id(Long id){
+        return productRepository.findAllByCategoryCategory_id(id);
     }
 
 

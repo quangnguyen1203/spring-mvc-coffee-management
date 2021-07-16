@@ -38,34 +38,39 @@
               <div class="card-body">
                 <h4 class="header-title mb-4">Product List</h4>
                 <div class="table-responsive">
-                  <table class="table table-centered mb-0 table-nowrap" id="inline-editable productList">
+                  <table class="table table-centered mb-0 table-nowrap" id="productList">
                     <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Price</th>
-                      <th class="text-center">Image</th>
-                      <th>Description</th>
-                      <th>Category</th>
-                      <th class="text-center">Action</th>
-                    </tr>
+                      <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th class="text-center">Image</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th class="text-center">Action</th>
+                      </tr>
                     </thead>
 
-                    <tbody th:each="product : ${products}">
-                    <tr th:id="'row'+${product.product_id}">
-                      <input hidden th:id="${product.product_id}">
-                      <td th:text="${product.product_name}"></td>
-                      <td th:text="${product.price} + ' $'"></td>
-                      <td class="text-center">
-                        <img th:src="${product.image}" alt="picture" style="width: 100px; height: 100px; object-fit: cover;">
-                      </td>
-                      <td th:text="${product.description}"></td>
-                      <td th:text="${product.category.category_name}"></td>
-                      <td class="text-center">
-                        <button th:value="${product.product_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="far fa-edit"></i>Edit</button>
-                        <button th:value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
-                      </td>
-                    </tr>
+                    <tbody>
+                      <th:block th:each="product : ${products}">
+                        <tr th:id="'row'+${product.product_id}">
+                          <input hidden th:id="${product.product_id}">
+                          <td th:text="${product.product_name}"></td>
+                          <td th:text="${product.price} + ' $'"></td>
+                          <td class="text-center">
+                            <img th:src="${product.image}" alt="picture" style="width: 100px; height: 100px; object-fit: cover;">
+                          </td>
+                          <td th:text="${product.description}"></td>
+                          <td th:text="${product.category.category_name}"></td>
+                          <td class="text-center">
+                            <button th:value="${product.product_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="far fa-edit"></i>Edit</button>
+                            <button th:value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
+                          </td>
+                        </tr>
+                      </th:block>
                     </tbody>
+<!--                    <tfoot id="paging" >-->
+
+<!--                    </tfoot>-->
                   </table>
                 </div>
                 <!-- end .table-responsive-->
@@ -96,6 +101,5 @@
 </body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
 
-<script th:replace="/dashboard/layout/script/product/listProduct::listProduct">
-</script>
+<script th:replace="/dashboard/layout/script/product/listProduct::listProduct"></script>
 </html>

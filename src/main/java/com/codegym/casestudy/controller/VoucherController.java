@@ -29,7 +29,7 @@ public class VoucherController {
     @GetMapping("/listVoucher")
     public ModelAndView getAllVoucherPage() {
         ModelAndView modelAndView = new ModelAndView("/dashboard/voucher/list");
-        modelAndView.addObject("vouchers",voucherService.findAll());
+        modelAndView.addObject("vouchers",voucherService.findAllByOrderByVoucher_idDesc());
         return modelAndView;
     }
 
@@ -78,10 +78,23 @@ public class VoucherController {
     }
 
 
-    @GetMapping("/hiddenVoucher")
+    @GetMapping("/listExpiredVoucher")
     public ModelAndView getAllVoucherHiddenPage() {
-        ModelAndView modelAndView = new ModelAndView("/dashboard/voucher/hiddenVoucher");
-        modelAndView.addObject("hiddenVouchers",voucherService.findAllVoucher_idDesc());
+        ModelAndView modelAndView = new ModelAndView("/dashboard/voucher/listExpiredVoucher");
+        modelAndView.addObject("expiredVouchers",voucherService.findAllByOrderByVoucher_idExpired());
         return modelAndView;
+    }
+
+    @GetMapping("/listUndueVoucher")
+    public ModelAndView getAllUndueVoucher(){
+        ModelAndView modelAndView = new ModelAndView("/dashboard/voucher/listUndueVoucher");
+        modelAndView.addObject("undueVouchers",voucherService.findAllByOrderByVoucher_id());
+        return modelAndView;
+    }
+
+    @GetMapping("/findVoucher/{id}")
+    public ResponseEntity<Voucher> findById(@PathVariable Long id){
+       Voucher voucher = voucherService.findById(id).get();
+       return new ResponseEntity<>(voucher, HttpStatus.OK);
     }
 }

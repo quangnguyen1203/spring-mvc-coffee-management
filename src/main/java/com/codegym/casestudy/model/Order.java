@@ -3,6 +3,7 @@ package com.codegym.casestudy.model;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,7 +13,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long oder_id;
+    private Long order_id;
     private double total_price;
     private Time order_time;
     private Date order_date;
@@ -29,6 +30,7 @@ public class Order {
     private Voucher voucher;
 
     public Order() {
+        this.products = new ArrayList<>();
     }
 
     public Order(double total_price, Time order_time, Date order_date, List<Product> products, User user, Voucher voucher) {
@@ -40,8 +42,8 @@ public class Order {
         this.voucher = voucher;
     }
 
-    public Order(Long oder_id, double total_price, Time order_time, Date order_date, List<Product> products, User user, Voucher voucher) {
-        this.oder_id = oder_id;
+    public Order(Long order_id, double total_price, Time order_time, Date order_date, List<Product> products, User user, Voucher voucher) {
+        this.order_id = order_id;
         this.total_price = total_price;
         this.order_time = order_time;
         this.order_date = order_date;
@@ -50,12 +52,12 @@ public class Order {
         this.voucher = voucher;
     }
 
-    public Long getOder_id() {
-        return oder_id;
+    public Long getOrder_id() {
+        return order_id;
     }
 
-    public void setOder_id(Long oder_id) {
-        this.oder_id = oder_id;
+    public void setOrder_id(Long order_id) {
+        this.order_id = order_id;
     }
 
     public double getTotal_price() {

@@ -105,9 +105,13 @@
     })
   }
 
-
   $(".edit-button").on("click",editProduct);
-  $(".save-customer").on("click",saveProduct);
+  $(".save-product").on("click",saveProduct);
   $(".delete-button").on("click",deleteConfirm);
+
+  $(document).ready( function () {
+      $('#productList').DataTable();
+  } );
+
 </script>
 </html>

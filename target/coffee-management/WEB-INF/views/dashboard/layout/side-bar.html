@@ -147,8 +147,7 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
-                            <li><a href="#">List Category</a></li>
-                            <li><a href="#">Create Category</a></li>
+                            <li><a th:href="@{/categories/listCategory}">List Category</a></li>
                         </ul>
                     </li>
 
@@ -161,7 +160,16 @@
                         <ul class="nav-second-level" aria-expanded="false">
                             <li><a th:href="@{/vouchers/listVoucher}">List Voucher</a></li>
                             <li><a th:href="@{/vouchers/create-voucher}">Create Voucher</a></li>
-                            <li><a th:href="@{/vouchers/hiddenVoucher}">Expired Voucher</a></li>
+                            <li>
+                                <a href="javascript: void(0);" class="waves-effect">
+                                    <span>Type Voucher </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a th:href="@{/vouchers/listExpiredVoucher}">Expired Voucher</a></li>
+                                    <li><a th:href="@{/vouchers/listUndueVoucher}">Undue Voucher</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>

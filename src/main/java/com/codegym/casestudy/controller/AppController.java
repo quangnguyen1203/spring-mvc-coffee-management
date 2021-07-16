@@ -33,11 +33,11 @@ public class AppController {
     @Autowired
     private ICategoryService categoryService;
 
-//    @Autowired
-//    private ICategoryService categoryService;
-
     @Autowired
     private IOrderService orderService;
+
+//    @Autowired
+//    private ICategoryService categoryService;
 
     @ModelAttribute("order")
     public Order order(){
@@ -47,7 +47,7 @@ public class AppController {
     @GetMapping
     public ModelAndView getAllProductPage() {
         ModelAndView modelAndView = new ModelAndView("/app/index");
-        modelAndView.addObject("products", appService.findAll());
+        modelAndView.addObject("products", productService.findAllByOrderByProduct_idDesc());
         modelAndView.addObject("vouchers",voucherService.findAll());
         modelAndView.addObject("categories",categoryService.findAll());
         return modelAndView;
@@ -61,7 +61,7 @@ public class AppController {
 
     @GetMapping("/allItem")
     public ResponseEntity<Iterable<Product>> productResponseEntity(){
-        Iterable<Product> products = productService.findAll();
+        Iterable<Product> products = productService.findAllByOrderByProduct_idDesc();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
@@ -70,5 +70,10 @@ public class AppController {
         Product product = productService.findById(id).get();
          orderService.addProduct(order,product);
         return new ResponseEntity<>(order,HttpStatus.CREATED);
+    }
+
+    @PostMapping("/saveOrder")
+    public ResponseEntity<Order> saveOrder(@RequestBody Order order){
+        return new ResponseEntity<>(orderService.save(order),HttpStatus.CREATED);
     }
 }

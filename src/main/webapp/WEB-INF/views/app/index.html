@@ -29,7 +29,7 @@
       <div class="col-lg-8 border" style="height: 721px;">
         <!-- MENU HEADER -->
         <div class="row">
-          <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+          <header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
               <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
               <span class="fs-4 "><h5>myPOS</h5></span>
@@ -39,7 +39,7 @@
 
         <!-- CATEGORIES -->
         <div class="row">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mb-5">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mb-2">
             <div class="container-fluid">
               <div class="navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -58,7 +58,7 @@
         </div>
 
         <!-- MENU -->
-        <div class="row overflow-auto" style="height: 520px" id="menuProduct">
+        <div class="row overflow-auto" style="height: 590px" id="menuProduct">
           <th:block th:each="product : ${products}">
             <div class="col-md-4 mb-5" >
               <div class="rounded card h-40 text-dark" >
@@ -91,9 +91,9 @@
         <div class="row">
           <div class="panel">
             <div class="panel-heading">
-              <h4 class="d-flex justify-content-between align-items-center ml-5 mt-4 mb-3">
+              <h4 class="d-flex justify-content-between align-items-center ml-5 mt-4 mb-2">
                 <span class="text-black">Current Order</span>
-                <span class="btn btn-outline-danger">Clear All</span>
+                <span class="btn btn-outline-danger clearOrder">Clear All</span>
               </h4>
             </div>
 
@@ -159,7 +159,7 @@
               </div>
             </div>
             <div class="col-lg-4 p-1 d-flex justify-content-around align-items-center">
-              <button class="btn btn-warning w-100 h-100 text-white">
+              <button class="btn btn-warning w-100 h-100 text-white createOrder">
                 Payment
               </button>
             </div>
@@ -171,6 +171,18 @@
 </div>
 
 <script>
+
+  let order = {
+    total_price: 0,
+    order_time: 0,
+    order_date: 0,
+    products: [],
+    voucher: {
+      voucher_name: "",
+      percent_discount: 0
+    }
+  };
+
     function searchProductByCategoryId(){
         let categoryId = $(this).attr("value");
         $.ajax({
@@ -252,50 +264,92 @@
     function drawOrder() {
       let content = "<div class=\"current-order panel-body overflow-auto border\">";
       let total = 0;
-      for (let i = 0; i < order.products.length; i++) {
-        total += order.products[i].price * order.products[i].amount;
-        content += `
-
+      if (order.products.length !== 0){
+        for (let i = 0; i < order.products.length; i++) {
+          total += order.products[i].price * order.products[i].amount;
+          content += `
               <ul class="list-group mb-3 ">
                 <li class=" d-flex justify-content-between p-3 pb-0 ">
                   <div>
                     <h6 class="my-0" style="width: 150px; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis">${order.products[i].product_name}</h6>
                   </div>
                   <div>
-                    <p><i value="${order.products[i].product_id}" class="fas fa-minus btn btn-outline-dark"></i>
-                      <span> ${order.products[i].amount} </span>
-                      <i value="${order.products[i].product_id}" class="fas fa-plus btn btn-outline-dark"></i>
+                    <p>
+                    <i value="${order.products[i].product_id}" class="fas fa-minus btn btn-outline-dark subToProduct"></i>
+                      <span class="w-50 text-center"> ${order.products[i].amount}</span>
+                      <i value="${order.products[i].product_id}" class="fas fa-plus btn btn-outline-dark addMoreProduct"></i>
                     </p>
                   </div>
-                  <span class="text-muted">${order.products[i].price*order.products[i].amount} $</span>
+                  <span class="text-muted" >${order.products[i].price*order.products[i].amount} $</span>
                 </li>
               </ul>`;
-      }
-      content += "</div>";
-      order.total_price = total;
-      content += `
+        }
+        content += "</div>";
+        order.total_price = total;
+        let subtotal = order.total_price;
+        let discount = order.voucher.percent_discount;
+        let tax = Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100;
+        let total_product = (order.total_price *(1- order.voucher.percent_discount/100)) + (Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100);
+        content += `
             <div class="panel-body border">
               <div class="d-flex justify-content-between p-3 pb-0">
                 <p>Subtotal</p>
-                <p><strong>${order.total_price}</strong></p>
+                <p><strong>${subtotal}</strong></p>
               </div>
               <div class="d-flex justify-content-between p-3 pb-0">
                 <p>Discounts</p>
-                <p><strong>${order.voucher.percent_discount} %</strong></p>
+                <p><strong>${discount} %</strong></p>
               </div>
               <div class="d-flex justify-content-between p-3 pb-0">
                 <p>Sales Tax</p>
-                <p><strong>${Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100} $</strong></p>
+                <p><strong>${tax} $</strong></p>
               </div>
               <hr>
               <div class="d-flex justify-content-between p-3 pb-0">
                 <h5>Total</h5>
-                <h5><strong>${(order.total_price *(1- order.voucher.percent_discount/100)) + (Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100)}</strong></h5>
+                <h5><strong>${total_product} $</strong></h5>
               </div>
             </div>
       `;
-      order.total_price = (order.total_price - order.voucher.percent_discount) + ((order.total_price-order.voucher.percent_discount)*0.1);
-      $('#allList').html(content);
+        order.total_price = total_product;
+        $('#allList').html(content);
+
+        $(".addMoreProduct").on("click",function (){
+          let id = $(this).attr("value");
+          getProduct(id);
+        })
+
+        $(".subToProduct").on("click",function (){
+          let id = $(this).attr("value");
+          subProduct(id);
+        })
+      }
+    }
+
+    function emptyOrder(){
+        let content = `<div class="current-order panel-body overflow-auto border" id="orderProductList">
+            </div>
+
+            <div class="panel-body border">
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Subtotal</p>
+                <p><strong>0</strong></p>
+              </div>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Discounts</p>
+                <p><strong>0</strong></p>
+              </div>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Sales Tax</p>
+                <p><strong>0</strong></p>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <h5>Total</h5>
+                <h5><strong>0</strong></h5>
+              </div>
+            </div>`;
+        $('#allList').html(content);
     }
 
     function checkSelected(arr, name){
@@ -314,26 +368,93 @@
         url: `/products/findProduct/${id}`,
         success: function (data){
           let productName = data.product_name;
-          let i = checkSelected(order.products,productName);
-          console.log(i);
-          if (i === -1){
+          let indexProduct = checkSelected(order.products,productName);
+          if (indexProduct === -1){
             order.products.push(data);
           } else {
-            order.products[i].amount = order.products[i].amount + 1;
+            order.products[indexProduct].amount++;
           }
           drawOrder(order);
         }
       })
     }
 
-    let order = {
-      products: [],
-      voucher: {
-        voucher_name: "",
-        percent_discount: 0,
-      },
-      total_price: 0
-    };
+    function subProduct(id){
+      $.ajax({
+        type: "GET",
+        url: `/products/findProduct/${id}`,
+        success: function (data){
+          let productName = data.product_name;
+          let indexProduct = checkSelected(order.products,productName);
+          console.log(indexProduct);
+          if (order.products[indexProduct].amount === 1){
+            order.products.splice(indexProduct,1);
+            if (order.products.length === 0){
+              emptyOrder(order);
+            } else {
+              drawOrder(order);
+            }
+          }
+          if(order.products[indexProduct].amount > 1){
+            order.products[indexProduct].amount--;
+            drawOrder(order);
+          }
+        }
+      })
+    }
+
+    function deleteOrder(){
+      order.products = [];
+      order.voucher.voucher_name = "";
+      order.voucher.percent_discount = 0;
+      order.total_price = 0;
+      emptyOrder(order)
+    }
+
+    function getToday(){
+      let today = new Date();
+      let dd = String(today.getDate()).padStart(2, '0');
+      let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      let yyyy = today.getFullYear();
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function getTime(){
+      let time = new Date();
+      let hh = time.getHours();
+      let mm = time.getMinutes();
+      let ss = time.getSeconds();
+      return `${hh}:${mm}:${ss}`;
+    }
+
+    function createOrder(){
+      order.order_date = getToday();
+      order.order_time = getTime();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes',
+      }).then((result) =>{
+        if (result.isConfirmed){
+          $.ajax({
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(order),
+            url: "/app/saveOrder",
+            success: function (order){
+              App.showSuccessAlert("Create new order successfully!");
+            }
+          })
+        }
+      })
+    }
 
     function getVoucher(id){
       $.ajax({
@@ -356,9 +477,13 @@
       getProduct(id);
     })
 
+    $(".clearOrder").on("click",deleteOrder);
+
     $('.searchByCategoryId').on('click',searchProductByCategoryId);
+
     $('.allItemProduct').on('click',allItems);
-    // $('.addToOrder').on('click',addProductToOrder);
+
+    $(".createOrder").on("click",createOrder);
 </script>
 
 </body>

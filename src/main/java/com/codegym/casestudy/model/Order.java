@@ -52,6 +52,14 @@ public class Order {
         this.voucher = voucher;
     }
 
+    public Order(double total_price, Time order_time, Date order_date, List<Product> products, Voucher voucher) {
+        this.total_price = total_price;
+        this.order_time = order_time;
+        this.order_date = order_date;
+        this.products = products;
+        this.voucher = voucher;
+    }
+
     public Long getOrder_id() {
         return order_id;
     }

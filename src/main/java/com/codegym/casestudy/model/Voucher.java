@@ -32,6 +32,10 @@ public class Voucher {
     public Voucher() {
     }
 
+    public Voucher(Long voucher_id) {
+        this.voucher_id = voucher_id;
+    }
+
     public Voucher(String voucher_name, double percent_discount, String release_date, String expiration_date) {
         this.voucher_name = voucher_name;
         this.percent_discount = percent_discount;

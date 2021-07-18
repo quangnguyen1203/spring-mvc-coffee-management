@@ -1,5 +1,7 @@
 package com.codegym.casestudy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
@@ -18,9 +20,11 @@ public class Order {
     private Time order_time;
     private Date order_date;
 
+    @JsonIgnore
     @OneToMany(targetEntity = Product.class,fetch = FetchType.EAGER)
     private List<Product> products;
 
+    @JsonIgnore
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
@@ -42,6 +46,13 @@ public class Order {
         this.voucher = voucher;
     }
 
+    public Order(double total_price, Time order_time, Date order_date, Voucher voucher) {
+        this.total_price = total_price;
+        this.order_time = order_time;
+        this.order_date = order_date;
+        this.voucher = voucher;
+    }
+
     public Order(Long order_id, double total_price, Time order_time, Date order_date, List<Product> products, User user, Voucher voucher) {
         this.order_id = order_id;
         this.total_price = total_price;
@@ -59,6 +70,8 @@ public class Order {
         this.products = products;
         this.voucher = voucher;
     }
+
+
 
     public Long getOrder_id() {
         return order_id;

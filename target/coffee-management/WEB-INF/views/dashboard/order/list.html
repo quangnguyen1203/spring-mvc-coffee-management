@@ -42,21 +42,19 @@
                     <thead>
                     <tr>
                       <th>#</th>
-                      <th>Order Date</th>
-                      <th>Order Time</th>
-                      <th>Total Price</th>
-                      <!--                        <th>Staff Name</th>-->
-                      <th>Voucher</th>
+                      <th>Order</th>
+                      <th>Product Name</th>
+                      <th>Amount</th>
+                      <th>Price</th>
                     </tr>
                     </thead>
-                    <tbody th:each="order : ${orders}">
+                    <tbody th:each="orderDetail : ${orderDetails}">
                     <tr>
-                      <td th:text="${order.order_id}"></td>
-                      <td th:text="${order.order_date}"></td>
-                      <td th:text="${order.order_time}"></td>
-                      <td th:text="${order.total_price}"></td>
-                      <!--                        <td th:text="${order.user.user_name}"></td>-->
-                      <td th:text="${order.voucher.voucher_name}"></td>
+                      <td th:text="${orderDetail.orderDetail_id}"></td>
+                      <td th:text="${orderDetail.order.order_id}"></td>
+                      <td th:text="${orderDetail.product_name}"></td>
+                      <td th:text="${orderDetail.amount}"></td>
+                      <td th:text="${orderDetail.price}"></td>
                     </tr>
 
                     </tbody>

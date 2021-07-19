@@ -81,6 +81,9 @@ public class AppController {
 
     @PostMapping("/saveOrder")
     public ResponseEntity<Order> saveOrder(@RequestBody Order order){
+//        if(order.getVoucher().getVoucher_id() == 0){
+//            order.getVoucher().setVoucher_id(null);
+//        }
 //        Optional<Voucher> voucher = voucherService.findById(  order.getVoucher().getVoucher_id());
 //        order.getVoucher().setVoucher_id(voucher.get().getVoucher_id());
 //        Order newOrder = orderService.save(order);

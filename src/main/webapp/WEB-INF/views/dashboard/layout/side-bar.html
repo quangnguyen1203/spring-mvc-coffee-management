@@ -109,7 +109,7 @@
                     <li class="menu-title">Navigation</li>
 
                     <li>
-                        <a  th:href="@{/products}" class="waves-effect">
+                        <a  th:href="@{/dashboard}" class="waves-effect">
                             <i class="ion-md-speedometer"></i>
                             <span >  Dashboard  </span>
                         </a>
@@ -117,12 +117,12 @@
 
                     <li>
                         <a href="javascript: void(0);" class="waves-effect">
-                            <i class="fas fa-tasks"></i>
+                            <i class="fas fa-money-check-alt"></i>
                             <span> Order </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
-                            <li><a th:href="@{/orders/listOrder}">List Order</a></li>
+                            <li><a th:href="@{/orderDetail}">List OrderDetail</a></li>
 <!--                            <li><a th:href="@{/products/create-product}">Create Product</a></li>-->
 <!--                            <li><a th:href="@{/products/hiddenProduct}">Hidden Product</a></li>-->
                         </ul>

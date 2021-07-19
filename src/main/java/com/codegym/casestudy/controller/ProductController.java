@@ -33,12 +33,6 @@ public class ProductController {
         return categoryService.findAll();
     }
 
-    @GetMapping
-    public ModelAndView homePage() {
-        //        modelAndView.addObject("products",productService.findAll());
-        return new ModelAndView("/dashboard/home");
-    }
-
     @GetMapping("/listProduct")
     public ModelAndView getAllProductPage() {
         Iterable<Product> productPage = productService.findAllByOrderByProduct_idDesc();

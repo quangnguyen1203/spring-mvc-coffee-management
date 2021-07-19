@@ -149,7 +149,7 @@
                         <th>Order Time</th>
                         <th>Total Price</th>
 <!--                        <th>Staff Name</th>-->
-                        <th>Voucher</th>
+<!--                        <th>Voucher</th>-->
                       </tr>
                       </thead>
                       <tbody th:each="order : ${orders}">
@@ -159,7 +159,7 @@
                         <td th:text="${order.order_time}"></td>
                         <td th:text="${order.total_price}"></td>
 <!--                        <td th:text="${order.user.user_name}"></td>-->
-                        <td th:text="${order.voucher.voucher_name}"></td>
+<!--                        <td th:text="${order.voucher.voucher_name}"></td>-->
                       </tr>
 
                       </tbody>

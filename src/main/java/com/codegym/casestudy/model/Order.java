@@ -20,7 +20,7 @@ public class Order {
     private Time order_time;
     private Date order_date;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(targetEntity = Product.class,fetch = FetchType.EAGER)
     private List<Product> products;
 

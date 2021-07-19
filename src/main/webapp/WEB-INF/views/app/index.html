@@ -129,11 +129,15 @@
             <div class="panel-body border">
               <div class="d-flex justify-content-between p-3 pb-0">
                 <h5>Received</h5>
-                <input type="text">
+                <div class="d-flex justify-content-between">
+                  <input type="text" value="" id="received">
+                  <span class="input-group-text">$</span>
+                </div>
+
               </div>
               <div class="d-flex justify-content-between p-3 pb-0">
-                <h5>Balance</h5>
-                <h5><strong style="color: red;"></strong></h5>
+                <h5>Balanced</h5>
+                <h5 id="balanced"></h5>
               </div>
             </div>
           </div>
@@ -293,7 +297,8 @@
       let voucher_id = order.voucher.voucher_id;
       let discount = order.voucher.percent_discount;
       let tax = Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100;
-      let total_product = (order.total_price *(1- order.voucher.percent_discount/100)) + (Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100);
+      let total_product = Math.round((((order.total_price *(1- order.voucher.percent_discount/100)) + (Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100)) + Number.EPSILON)* 100) / 100 ;
+
       content += `
             <div class="panel-body border">
               <div class="d-flex justify-content-between p-3 pb-0">
@@ -318,18 +323,7 @@
             </div>
       `;
       order.total_price = total_product;
-      content+= `
-      <div class="panel-body border">
-              <div class="d-flex justify-content-between p-3 pb-0">
-                <h5>Received</h5>
-                <input type="text" value="">
-              </div>
-              <div class="d-flex justify-content-between p-3 pb-0">
-                <h5>Balance</h5>
-                <h5><strong style="color: red;"></strong></h5>
-              </div>
-            </div>
-      `
+
       $('#allList').html(content);
 
       $(".addMoreProduct").on("click",function (){
@@ -428,6 +422,8 @@
     order.total_price = 0;
     order.order_date = "";
     order.order_time = "";
+    $("#received").val("");
+    $("#balanced").html("");
     emptyOrder(order)
   }
 
@@ -458,13 +454,14 @@
       voucher_id : voucher
     }
 
+
     let newOrder = {
-      total_price : total_price,
-      order_date : order_date,
-      order_time : order_time,
-      voucher : newVoucher
+      total_price: total_price,
+      order_date: order_date,
+      order_time: order_time,
+      voucher: newVoucher
     }
-    console.log(newOrder);
+
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -475,6 +472,9 @@
       confirmButtonText: 'Yes',
     }).then((result) =>{
       if (result.isConfirmed){
+        // if(newOrder.voucher.voucher_id ===0){
+        //   newOrder.voucher.voucher_id = null;
+        // }
         $.ajax({
           headers: {
             'Accept': 'application/json',
@@ -483,10 +483,39 @@
           type: "POST",
           data: JSON.stringify(newOrder),
           url: "/app/saveOrder",
-          success: function (data){
-            console.log(data)
-            deleteOrder();
-            App.showSuccessAlert("Create new order successfully!");
+          // success: function (data){
+          //   console.log(data)
+          //   deleteOrder();
+          //   App.showSuccessAlert("Create new order successfully!");
+          // }
+        }).done((resp) => {
+          newOrder = resp;
+          for (let i = 0; i < order.products.length ; i++) {
+            let newOrderDetail = {
+              order :{
+                order_id : newOrder.order_id
+              },
+              product_name: order.products[i].product_name,
+              amount: order.products[i].amount,
+              price: order.products[i].price
+            }
+            $.ajax({
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              type: "POST",
+              data: JSON.stringify(newOrderDetail),
+              url: "/orderDetail/saveOrderDetail",
+              // success: function (data){
+              //   console.log(data)
+              //   deleteOrder();
+              //   App.showSuccessAlert("Create new order successfully!");
+              // }
+            }).done((resp) => {
+              deleteOrder();
+              App.showSuccessAlert("Create new order successfully!");
+            })
           }
         })
       }
@@ -503,6 +532,14 @@
       }
     })
   }
+
+  $("#received").on("change",function (){
+    let balanced = Math.round((($("#received").val() - $("#total").val()) + Number.EPSILON)*100)/100;
+
+    $("#balanced").html(
+            `<strong style="color: red;" >${balanced}</strong> $`
+    )
+  })
 
   $(".addToVoucher").on("click",function (){
     let id = $(this).attr("value");

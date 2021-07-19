@@ -1,13 +1,12 @@
 package com.codegym.casestudy.controller;
 
 
-import com.codegym.casestudy.model.Category;
-import com.codegym.casestudy.model.Order;
-import com.codegym.casestudy.model.Product;
-import com.codegym.casestudy.model.Voucher;
+import com.codegym.casestudy.model.*;
+import com.codegym.casestudy.repository.IOrderDetailRepository;
 import com.codegym.casestudy.serivce.app.IAppService;
 import com.codegym.casestudy.serivce.category.ICategoryService;
 import com.codegym.casestudy.serivce.order.IOrderService;
+import com.codegym.casestudy.serivce.order_detail.IOrderDetailService;
 import com.codegym.casestudy.serivce.product.IProductService;
 import com.codegym.casestudy.serivce.voucher.IVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/app")
 public class AppController {
+
+    @Autowired
+    private IOrderDetailService orderDetailService;
 
     @Autowired
     private IAppService appService;
@@ -79,7 +81,7 @@ public class AppController {
 
     @PostMapping("/saveOrder")
     public ResponseEntity<Order> saveOrder(@RequestBody Order order){
-//        Optional<Voucher> voucher = voucherService.findById(order.getVoucher().getVoucher_id());
+//        Optional<Voucher> voucher = voucherService.findById(  order.getVoucher().getVoucher_id());
 //        order.getVoucher().setVoucher_id(voucher.get().getVoucher_id());
 //        Order newOrder = orderService.save(order);
         return new ResponseEntity<>(orderService.save(order),HttpStatus.CREATED);

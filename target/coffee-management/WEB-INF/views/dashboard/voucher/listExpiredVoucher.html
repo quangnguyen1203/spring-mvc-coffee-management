@@ -48,7 +48,7 @@
                       <td th:text="${voucher.expiration_date}"></td>
                       <td class="text-center">
                         <button th:value="${voucher.voucher_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="far fa-edit"></i>Edit</button>
-                        <button th:value="${voucher.voucher_id}" class="btn btn-outline-primary mr-2 delete-button" ><i class="far fa-edit"></i>Restore</button>
+                        <button th:value="${voucher.voucher_id}" class="btn btn-outline-danger mr-2 delete-button" ><i class="far fa-edit"></i>Delete</button>
                       </td>
                     </tr>
                     </tbody>
@@ -123,7 +123,7 @@
                         <td>${voucher.expiration_date}</td>
                         <td class="text-center">
                             <button value="${voucher.voucher_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="fas fa-edit"></i>Edit</button>
-                            <button value="${voucher.voucher_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
+                            <button value="${voucher.voucher_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Delete</button>
                         </td>`);
         $(".edit-button").on("click",editVoucher);
         $(".delete-button").on("click",deleteConfirm);
@@ -139,7 +139,7 @@
             .then((result) => {
               if (result.isConfirmed) {
                 $.ajax({
-                  type: "POST",
+                  type: "DELETE",
                   url: `/vouchers/${voucherID}`,
                   success: function () {
                     $("#row" + voucherID).remove();

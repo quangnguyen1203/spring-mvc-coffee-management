@@ -48,15 +48,16 @@
                       <th>Price</th>
                     </tr>
                     </thead>
-                    <tbody th:each="orderDetail : ${orderDetails}">
-                    <tr>
-                      <td th:text="${orderDetail.orderDetail_id}"></td>
-                      <td th:text="${orderDetail.order.order_id}"></td>
-                      <td th:text="${orderDetail.product_name}"></td>
-                      <td th:text="${orderDetail.amount}"></td>
-                      <td th:text="${orderDetail.price}"></td>
-                    </tr>
-
+                    <tbody >
+                      <th:block th:each="orderDetail : ${orderDetails}">
+                        <tr>
+                          <td th:text="${orderDetail.orderDetail_id}"></td>
+                          <td th:text="${orderDetail.order.order_id}"></td>
+                          <td th:text="${orderDetail.product_name}"></td>
+                          <td th:text="${orderDetail.amount}"></td>
+                          <td th:text="${orderDetail.price}"></td>
+                        </tr>
+                      </th:block>
                     </tbody>
 
                   </table>
@@ -88,8 +89,10 @@
 <div th:replace="/dashboard/layout/editModalProduct::editModalProduct"></div>
 </body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
+<script>
+  $(document).ready( function () {
+    $('#orderList').DataTable();
+  } );
+</script>
 
-<script th:replace="/dashboard/layout/script/product/listProduct::listProduct"></script>
-
-<script></script>
 </html>

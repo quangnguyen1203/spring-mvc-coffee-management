@@ -31,4 +31,9 @@ public class OrderDetailService implements IOrderDetailService{
     public void remove(Long id) {
         orderDetailRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<OrderDetail> findByOrder_id(Long id) {
+        return orderDetailRepository.findByOrder_id(id);
+    }
 }

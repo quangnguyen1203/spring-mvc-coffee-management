@@ -74,4 +74,13 @@
 </body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
 <script th:replace="/dashboard/layout/script/voucher/createVoucher::createVoucher"></script>
+<script>
+    function updateDate(){
+        let date = $("#release_date").val();
+        let release_date = date.split("-");
+        $("#expiration_date").val(release_date[0]+"-"+release_date[1]+"-"+release_date[2]);
+    }
+
+    $('#release_date').on("change",updateDate);
+</script>
 </html>

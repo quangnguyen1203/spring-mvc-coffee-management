@@ -4,6 +4,8 @@
 <head th:replace="/dashboard/layout/head::head">
 </head>
 
+
+
 <body>
 
 <!-- Begin page -->
@@ -28,15 +30,15 @@
                             <form class="parsley-examples" id="create-form">
                                 <div class="form-group">
                                     <label>Product Name<span class="text-danger">*</span></label>
-                                    <input type="text" name="product_name" parsley-trigger="change" required="" placeholder="Enter product name" class="form-control" id="product_name">
+                                    <input type="text" name="product_name" parsley-trigger="change" required placeholder="Enter product name" class="form-control" id="product_name">
                                 </div>
                                 <div class="form-group">
                                     <label>Price<span class="text-danger">*</span></label>
-                                    <input type="text" name="price" parsley-trigger="change" required="" placeholder="Enter price" class="form-control" id="price">
+                                    <input type="number" name="price" parsley-trigger="change" required placeholder="Enter price" class="form-control" id="price">
                                 </div>
                                 <div class="form-group">
                                     <label>Description<span class="text-danger">*</span></label>
-                                    <input id="description" type="text" placeholder="Enter description" required="" class="form-control">
+                                    <input id="description" type="text" placeholder="Enter description" required class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Category</label>
@@ -47,7 +49,7 @@
                                 </div>
                                 <div>
                                     <label>Image<span class="text-danger">*</span></label>
-                                    <input type="file" id="i64" value="" onchange="uploadImg64(this)">
+                                    <input name="inputImage" type="file" id="i64" value="" onchange="uploadImg64(this)" required>
                                     <input type="text" id="img64" value="" hidden>
                                     <img id="avatar" class="avatar" style="width: auto; height: 150px">
                                 </div>
@@ -79,9 +81,57 @@
 </div>
 <!-- END wrapper -->
 </div>
+
 </body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
-<script th:replace="/dashboard/layout/script/product/createProduct::createProduct">
+<script type="text/javascript" src="/resource/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="/resource/js/jquery.validate-1.19.3.min.js"></script>
+
+<script>
+    $(() => {
+        $("#create-form").validate({
+            errorElement: 'div',
+            rules: {
+                product_name:  {
+                required: true,
+                minlength: 1,
+                maxlength: 50,
+                },
+                price: {
+                    required: true,
+                    number: true
+                },
+                upCountry:{
+                    required:true
+                },
+                inputImage: {
+                    required:true
+                }
+            },
+
+            messages: {
+                product_name: {
+                required: "Please enter product name!",
+                minlength: "Please enter at least 5 characters!",
+                maxlength: "Please enter up to 50 characters!"
+                },
+                price: {
+                    required: "Please input price of product!",
+                    number: "Please input only number!"
+                },
+                upCountry: "Please choose product category!",
+                inputImage: "Please choose product image!"
+            },
+
+            // submitHandler: function(form) {
+            //     form.submit();
+            // }
+        });
+    });
 
 </script>
+
+
+<script th:replace="/dashboard/layout/script/product/createProduct::createProduct"></script>
+
 </html>

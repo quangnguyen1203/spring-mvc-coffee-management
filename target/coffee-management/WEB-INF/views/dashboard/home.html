@@ -149,17 +149,17 @@
                         <th>Order Time</th>
                         <th>Total Price</th>
 <!--                        <th>Staff Name</th>-->
-<!--                        <th>Voucher</th>-->
+                        <th>Voucher</th>
                       </tr>
                       </thead>
                       <tbody th:each="order : ${orders}">
                       <tr>
-                        <td th:text="${order.order_id}"></td>
+                        <td class="detail" type="button" data-toggle="modal" data-target="#exampleModal" th:text="${order.order_id}" th:value="${order.order_id}"></td>
                         <td th:text="${order.order_date}"></td>
                         <td th:text="${order.order_time}"></td>
                         <td th:text="${order.total_price}"></td>
 <!--                        <td th:text="${order.user.user_name}"></td>-->
-<!--                        <td th:text="${order.voucher.voucher_name}"></td>-->
+                        <td th:text="${order.voucher.voucher_name}"></td>
                       </tr>
 
                       </tbody>
@@ -190,8 +190,58 @@
 </div>
 <!-- END wrapper -->
 
+<!--Modal detail-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header float-right" id="orderNumber">
+        <h5>Order details</h5>
+      </div>
+      <div class="modal-body">
+        <div>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+
+              <th>Product Name</th>
+              <th>Amount</th>
+              <th>Price</th>
+            </tr>
+            </thead>
+            <tbody id="detailBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
 
 </body>
 
+<script>
+  function getBody(){
+    let detail_id = $(this).attr("value");
+    $.ajax({
+      type: "GET",
+      url: `/orderDetail/${detail_id}`
+    }).done(function (orderDetail){
+      $('#orderNumber').html(`<h5>Order Number ${orderDetail[0].order.order_id}</h5>`);
+      let content = "";
+      for (let i = 0; i < orderDetail.length ; i++) {
+        content += `
+            <tr>
+                <td>${orderDetail[i].product_name}</td>
+                <td>${orderDetail[i].amount}</td>
+                <td>${orderDetail[i].price}</td>
+            </tr>`;
+      }
+      $('#detailBody').html(content);
+    })
+  }
+
+  $('.detail').on("click",getBody);
+</script>
 </html>

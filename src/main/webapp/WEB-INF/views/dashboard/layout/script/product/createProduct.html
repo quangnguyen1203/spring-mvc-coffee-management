@@ -20,20 +20,23 @@
       category : newCategory
     }
 
-    $.ajax({
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      type: "POST",
-      data: JSON.stringify(product),
-      url: "/products/create-product",
-      success: function (){
-        $("#create-form")[0].reset();
-        $("#avatar").attr("src","");
-        App.showSuccessAlert("Create new product successfully!");
+      if ($("#create-form").valid()){
+          $.ajax({
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              type: "POST",
+              data: JSON.stringify(product),
+              url: "/products/create-product"
+          }).done(function (){
+              $("#create-form")[0].reset();
+              $("#avatar").attr("src","");
+              App.showSuccessAlert("Create new product successfully!");
+          }).fail(()=>{
+              App.showErrorAlert("Something went wrong!");
+          })
       }
-    })
   }
 
   $("#create-button").on("click",createProduct);

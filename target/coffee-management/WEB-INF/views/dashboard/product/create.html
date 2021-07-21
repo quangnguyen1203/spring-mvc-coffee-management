@@ -94,7 +94,7 @@
             rules: {
                 product_name:  {
                 required: true,
-                minlength: 1,
+                minlength: 5,
                 maxlength: 50,
                 },
                 price: {
@@ -123,9 +123,7 @@
                 inputImage: "Please choose product image!"
             },
 
-            // submitHandler: function(form) {
-            //     form.submit();
-            // }
+            submitHandler : createProduct
         });
     });
 

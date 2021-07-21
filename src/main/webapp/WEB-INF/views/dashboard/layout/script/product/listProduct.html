@@ -5,7 +5,18 @@
     $.ajax({
       type: "GET",
       url: `/products/edit-product/${productID}`,
-      success:function (product){
+      // success:function (product){
+      //   $('#upID').val(product.product_id);
+      //   $('#upProductName').val(product.product_name);
+      //   $('#upPrice').val(product.price);
+      //   $('#upDescription').val(product.description);
+      //   $('#avatar').attr("src",product.image);
+      //   $('#img64').attr("value",product.image);
+      //   $('#upCategory').val(product.category.category_id);
+      //   $('#editModal').modal('show');
+      //
+      // }
+    }).done(function (product){
         $('#upID').val(product.product_id);
         $('#upProductName').val(product.product_name);
         $('#upPrice').val(product.price);
@@ -14,8 +25,8 @@
         $('#img64').attr("value",product.image);
         $('#upCategory').val(product.category.category_id);
         $('#editModal').modal('show');
-
-      }
+    }).fail(function (){
+        App.showErrorAlert("Something went wrong!")
     })
   }
 

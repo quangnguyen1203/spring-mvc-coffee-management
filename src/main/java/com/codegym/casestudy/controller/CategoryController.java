@@ -1,11 +1,11 @@
 package com.codegym.casestudy.controller;
 
 import com.codegym.casestudy.model.Category;
-import com.codegym.casestudy.model.Product;
 import com.codegym.casestudy.serivce.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,12 +18,14 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView homePage() {
         //        modelAndView.addObject("products",productService.findAll());
         return new ModelAndView("/dashboard/home");
     }
 
     @GetMapping("/listCategory")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView getAllCategoryPage() {
         ModelAndView modelAndView = new ModelAndView("/dashboard/category/list");
         modelAndView.addObject("categories",categoryService.findAll());

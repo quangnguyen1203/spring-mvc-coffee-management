@@ -16,6 +16,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -127,5 +128,11 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         registry.addResourceHandler("/assets/**")
                 .addResourceLocations("/assets/")
                 .resourceChain(false);
+    }
+
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**").allowedOrigins("http://localhost:8080");
     }
 }

@@ -1,8 +1,9 @@
 package com.codegym.casestudy.controller;
 
 
-import com.codegym.casestudy.model.*;
-import com.codegym.casestudy.repository.IOrderDetailRepository;
+import com.codegym.casestudy.model.Order;
+import com.codegym.casestudy.model.Product;
+import com.codegym.casestudy.model.Voucher;
 import com.codegym.casestudy.serivce.app.IAppService;
 import com.codegym.casestudy.serivce.category.ICategoryService;
 import com.codegym.casestudy.serivce.order.IOrderService;
@@ -12,12 +13,11 @@ import com.codegym.casestudy.serivce.voucher.IVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/app")
@@ -51,12 +51,26 @@ public class AppController {
         return voucherService.findAll();
     }
 
+    private String getPrincipal() {
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+    }
+
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN','STAFF')")
     public ModelAndView getAllProductPage() {
         ModelAndView modelAndView = new ModelAndView("/app/index");
         modelAndView.addObject("products", productService.findAllByOrderByProduct_idDesc());
         modelAndView.addObject("vouchers",voucherService.findAll());
         modelAndView.addObject("categories",categoryService.findAll());
+        modelAndView.addObject("userInfo", getPrincipal());
         return modelAndView;
     }
 

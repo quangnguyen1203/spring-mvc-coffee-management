@@ -7,6 +7,7 @@ import com.codegym.casestudy.serivce.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.Optional;
@@ -18,8 +19,10 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
     @Autowired
     private IRoleService roleService;
+
     @ModelAttribute("roles")
     public Iterable<Role> roles(){
         return roleService.findAll();
@@ -28,7 +31,7 @@ public class UserController {
     @GetMapping("/list-user")
     public ModelAndView getAllUser(){
         ModelAndView modelAndView = new ModelAndView("/dashboard/user/list");
-        modelAndView.addObject("users",userService.findAllByOrderByRole_id());
+        modelAndView.addObject("users",userService.findAll());
         return modelAndView;
     }
 
@@ -41,8 +44,9 @@ public class UserController {
 
     @PostMapping("/create-user")
     public ResponseEntity<User> createUser(@RequestBody User user){
-        Optional<Role> role = roleService.findById(user.getRole().getRole_id());
-        user.getRole().setRole_name(role.get().getRole_name());
+        Optional<Role> role = roleService.findById(user.getRole().getId());
+        user.setRole(role.get());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
     }
 
@@ -65,7 +69,7 @@ public class UserController {
     @PutMapping("/edit-user/{id}")
     public ResponseEntity<User> editUser(@RequestBody User user,@PathVariable Long id){
         user.setUser_id(id); ;
-        user.getRole().setRole_name(roleService.findById(user.getRole().getRole_id()).get().getRole_name());
+        user.getRole().setName(roleService.findById(user.getRole().getId()).get().getName());
         return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,6 +35,7 @@ public class ProductController {
     }
 
     @GetMapping("/listProduct")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView getAllProductPage() {
         Iterable<Product> productPage = productService.findAllByOrderByProduct_idDesc();
         ModelAndView modelAndView = new ModelAndView("/dashboard/product/list");

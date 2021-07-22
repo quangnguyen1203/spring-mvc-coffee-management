@@ -50,19 +50,20 @@
       category : newCategory
     }
 
-    $.ajax({
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      type: "PUT",
-      data: JSON.stringify(product),
-      url: `/products/edit/${product_id}`,
-      success: function (product) {
-        $('#row'+product_id+ ' td').remove();
-        $('#row'+product_id).html(`
+    if ($("#edit-product").valid()){
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "PUT",
+            data: JSON.stringify(product),
+            url: `/products/edit/${product_id}`,
+            success: function (product) {
+                $('#row'+product_id+ ' td').remove();
+                $('#row'+product_id).html(`
                         <td>${product.product_name}</td>
-                        <td>${product.price}</td>
+                        <td>${product.price} $</td>
                         <td class="text-center">
                             <img src="${product.image}" alt="picture" style="width: 100px; height: 100px; object-fit: cover;">
                         </td>
@@ -72,13 +73,14 @@
                             <button value="${product.product_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="fas fa-edit"></i>Edit</button>
                             <button value="${product.product_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
                         </td>`);
-        $(".edit-button").on("click",editProduct);
-        $(".delete-button").on("click",deleteConfirm);
-        $('#editModal').modal("hide");
-        App.showSuccessAlert("Edit product successfully!")
-        $("#edit-product")[0].reset();
-      }
-    })
+                $(".edit-button").on("click",editProduct);
+                $(".delete-button").on("click",deleteConfirm);
+                $('#editModal').modal("hide");
+                App.showSuccessAlert("Edit product successfully!")
+                $("#edit-product")[0].reset();
+            }
+        })
+    }
   }
 
   function deleteConfirm() {
@@ -120,9 +122,7 @@
   $(".save-product").on("click",saveProduct);
   $(".delete-button").on("click",deleteConfirm);
 
-  $(document).ready( function () {
-      $('#productList').DataTable();
-  } );
+
 
 </script>
 </html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="/resource/css/bootstrap.css">
+    <link rel="stylesheet" href="/resource/css/style.css">
+    <link rel="stylesheet" href="/resource/css/sweetalert2.min.css">
+    <script type="text/javascript" src="/resource/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/resource/js/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="/resource/js/app.js"></script>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin">
+        <fieldset class="row g-2">
+            <h2 class="form-signin-heading">Please sign in Control Panel</h2>
+            <div class="form-group">
+                <div class="col-md-6" th:if="${param.error}">
+                    <div class="alert alert-danger" role="alert">
+                        <p style="margin-bottom: 0;">You entered wrong credentials!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <div class="col-md-6">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus>
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <div class="col-md-6">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="text" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    <button id="btnLogin" class="btn btn-lg btn-outline-primary btn-block" type="button">Sign in</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<script>
+
+    function loginHandle() {
+        let customer = {
+            username: $("#username").val(),
+            password: $("#password").val()
+        };
+
+        $.ajax({
+            type: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            url: "/api/login",
+            data: JSON.stringify(customer)
+        }).done((resp) => {
+            console.log(resp);
+            App.showSuccessAlert("Successful data generation !");
+            if (resp.roles[0].authority === "ADMIN"){
+                window.location.href = "/dashboard";
+            } else {
+                window.location.href = "/app";
+            }
+        }).fail(() => {
+            App.showErrorAlert("An error occurred. Please try again later !");
+        });
+    }
+
+    $("#btnLogin").on("click", () => {
+        loginHandle();
+    });
+
+
+</script>
+
+</body>
+</html>

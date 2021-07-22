@@ -98,8 +98,57 @@
 </div>
 <!-- END wrapper -->
 <div th:replace="/dashboard/layout/editModalProduct::editModalProduct"></div>
-</body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
+</body>
 
+
+<script>
+
+  $(() => {
+    $("#edit-product").validate({
+      errorElement: 'div',
+      rules: {
+        product_name:  {
+          required: true,
+          minlength: 5,
+          maxlength: 50,
+        },
+        price: {
+          required: true,
+          number: true
+        },
+        upCountry:{
+          required:true
+        },
+        inputImage: {
+          required:true
+        }
+      },
+
+      messages: {
+        product_name: {
+          required: "Please enter product name!",
+          minlength: "Please enter at least 5 characters!",
+          maxlength: "Please enter up to 50 characters!"
+        },
+        price: {
+          required: "Please input price of product!",
+          number: "Please input only number!"
+        },
+        upCountry: "Please choose product category!",
+        inputImage: "Please choose product image!"
+      },
+
+      submitHandler : saveProduct
+    });
+  });
+
+
+</script>
 <script th:replace="/dashboard/layout/script/product/listProduct::listProduct"></script>
+<script>
+  $(document).ready( function () {
+    $('#productList').DataTable();
+  });
+</script>
 </html>

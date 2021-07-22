@@ -152,11 +152,11 @@
           <div class="row">
             <div class="col-lg-4 p-1 border-right d-flex justify-content-around align-items-center">
               <div class="">
-                <h5>Staff name</h5>
+                <h5><span th:text="${userInfo}"></span></h5>
                 <i class="fas fa-user"></i>
               </div>
 
-              <button class="btn btn-warning text-white">Setting</button>
+              <a th:href="@{/logout}" class="btn btn-warning text-white">Logout</a>
             </div>
             <div class="col-lg-4 p-1  d-flex justify-content-around align-items-center">
               <div class="" >
@@ -453,6 +453,7 @@
     let newVoucher = {
       voucher_id : voucher
     }
+
 
 
     let newOrder = {

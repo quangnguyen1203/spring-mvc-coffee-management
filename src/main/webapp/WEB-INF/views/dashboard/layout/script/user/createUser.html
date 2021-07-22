@@ -1,24 +1,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <script th:fragment="createUser">
   function createUser(){
-    let user_name = $("#user_name").val();
+    let username = $("#user_name").val();
     let password = $("#password").val();
     let email = $("#email").val();
     let phoneNumber = $("#phone-number").val();
     let role = $("#role").val();
     let img64 = $("#img64").val();
-    console.log(user_name);
+
     let newRole = {
       role_id : role
     }
+
     let user = {
-      user_name : user_name,
+      username : username,
       password : password,
       email : email,
       phoneNumber : phoneNumber,
       image : img64,
       role : newRole
     }
+
     $.ajax({
       headers: {
         'Accept': 'application/json',
@@ -26,13 +28,16 @@
       },
       type: "POST",
       data: JSON.stringify(user),
-      url: "/users/create-user",
-      success: function (){
+      url: "/users/create-user"
+    }).done( function (){
         $("#create-user-form")[0].reset();
         $("#avatar").attr("src","");
         App.showSuccessAlert("Create new user successfully!");
-      }
+    }).fail(function (){
+        App.showErrorAlert("Something went wrong!")
     })
   }
+
+  $("#create-user-button").on("click", createUser)
 </script>
 </html>

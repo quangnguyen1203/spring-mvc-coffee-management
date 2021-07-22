@@ -1,12 +1,11 @@
 package com.codegym.casestudy.controller;
 
-import com.codegym.casestudy.model.Category;
-import com.codegym.casestudy.model.Product;
 import com.codegym.casestudy.model.Voucher;
 import com.codegym.casestudy.serivce.voucher.IVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,6 +26,7 @@ public class VoucherController {
     }
 
     @GetMapping("/listVoucher")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView getAllVoucherPage() {
         ModelAndView modelAndView = new ModelAndView("/dashboard/voucher/list");
         modelAndView.addObject("vouchers",voucherService.findAllByOrderByVoucher_idDesc());
@@ -34,6 +34,7 @@ public class VoucherController {
     }
 
     @GetMapping("/create-voucher")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView showCreateForm() {
         ModelAndView modelAndView = new ModelAndView("/dashboard/voucher/create");
         modelAndView.addObject("voucher", new Voucher());
@@ -52,6 +53,7 @@ public class VoucherController {
     }
 
     @GetMapping("/edit-voucher/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<Voucher> voucherResponseEntity(@PathVariable Long id){
         Voucher voucherOptional = voucherService.findById(id).get();
         return new ResponseEntity<>(voucherOptional,HttpStatus.OK);
@@ -79,6 +81,7 @@ public class VoucherController {
 
 
     @GetMapping("/listExpiredVoucher")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView getAllVoucherHiddenPage() {
         ModelAndView modelAndView = new ModelAndView("/dashboard/voucher/listExpiredVoucher");
         modelAndView.addObject("expiredVouchers",voucherService.findAllByOrderByVoucher_idExpired());
@@ -86,6 +89,7 @@ public class VoucherController {
     }
 
     @GetMapping("/listUndueVoucher")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView getAllUndueVoucher(){
         ModelAndView modelAndView = new ModelAndView("/dashboard/voucher/listUndueVoucher");
         modelAndView.addObject("undueVouchers",voucherService.findAllByOrderByVoucher_id());

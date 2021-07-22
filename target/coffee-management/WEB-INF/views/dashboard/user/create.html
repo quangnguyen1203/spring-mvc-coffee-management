@@ -38,7 +38,7 @@
                                     <label>Role</label>
                                     <select class="form-control" name="role" id="role" value="">
                                         <option value="">Choose Role</option>
-                                        <option th:each="r : ${roles}" th:value="${r.role_id}" th:text="${r.role_name}"></option>
+                                        <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.name}"></option>
                                     </select>
                                 </div>
                                 <div>
@@ -48,7 +48,7 @@
                                     <img id="avatar" class="avatar" style="width: auto; height: 150px">
                                 </div>
                                 <div class="form-group text-right mb-0">
-                                    <button class="btn btn-primary waves-effect waves-light mr-1" id="create-user-button" onclick="createUser()" type="button">
+                                    <button class="btn btn-primary waves-effect waves-light mr-1" id="create-user-button" type="button">
                                         Submit
                                     </button>
                                     <button type="reset" class="btn btn-secondary waves-effect waves-light">

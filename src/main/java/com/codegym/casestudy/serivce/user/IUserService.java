@@ -18,4 +18,6 @@ public interface IUserService extends UserDetailsService {
     void remove(Long id);
 
     UserPrincipal findByUsername(String username);
+
+    User findByName(String username);
 }

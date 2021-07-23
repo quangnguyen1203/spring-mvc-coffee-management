@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.util.Optional;
 
 @RestController
@@ -72,4 +73,5 @@ public class UserController {
         user.getRole().setName(roleService.findById(user.getRole().getId()).get().getName());
         return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
     }
+
 }

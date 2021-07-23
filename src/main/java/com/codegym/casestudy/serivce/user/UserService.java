@@ -67,6 +67,11 @@ public class UserService implements IUserService {
         return userPrincipal;
     }
 
+    @Override
+    public User findByName(String username) {
+        return userRepository.findByUsername(username);
+    }
+
 //    @Override
 //    public Iterable<User> findAllByOrderByRole_id() {
 //        return userRepository.findAllByOrderByRole_id();

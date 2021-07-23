@@ -3,12 +3,14 @@ package com.codegym.casestudy.controller;
 
 import com.codegym.casestudy.model.Order;
 import com.codegym.casestudy.model.Product;
+import com.codegym.casestudy.model.User;
 import com.codegym.casestudy.model.Voucher;
 import com.codegym.casestudy.serivce.app.IAppService;
 import com.codegym.casestudy.serivce.category.ICategoryService;
 import com.codegym.casestudy.serivce.order.IOrderService;
 import com.codegym.casestudy.serivce.order_detail.IOrderDetailService;
 import com.codegym.casestudy.serivce.product.IProductService;
+import com.codegym.casestudy.serivce.user.IUserService;
 import com.codegym.casestudy.serivce.voucher.IVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,9 @@ public class AppController {
     @Autowired
     private IOrderService orderService;
 
+    @Autowired
+    private IUserService userService;
+
     @ModelAttribute("order")
     public Order order(){
         return new Order();
@@ -49,6 +54,11 @@ public class AppController {
     @ModelAttribute("vouchers")
     public Iterable<Voucher> vouchers(){
         return voucherService.findAll();
+    }
+
+    @ModelAttribute("users")
+    public Iterable<User> users(){
+        return userService.findAll();
     }
 
     private String getPrincipal() {
@@ -95,6 +105,10 @@ public class AppController {
 
     @PostMapping("/saveOrder")
     public ResponseEntity<Order> saveOrder(@RequestBody Order order){
+        String username = getPrincipal();
+        User user = userService.findByName(username);
+        order.setUser(user);
+
 //        if(order.getVoucher().getVoucher_id() == 0){
 //            order.getVoucher().setVoucher_id(null);
 //        }

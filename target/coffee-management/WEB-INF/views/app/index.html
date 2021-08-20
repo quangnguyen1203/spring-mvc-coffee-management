@@ -400,7 +400,6 @@
       success: function (data){
         let productName = data.product_name;
         let indexProduct = checkSelected(order.products,productName);
-        console.log(indexProduct);
         if (order.products[indexProduct].amount === 1){
           order.products.splice(indexProduct,1);
           if (order.products.length === 0){

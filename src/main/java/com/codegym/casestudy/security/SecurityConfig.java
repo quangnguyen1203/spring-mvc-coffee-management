@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JWT").invalidateHttpSession(true)
                 .permitAll();
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-                .csrf().disable();
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+//                .csrf().disable();
     }
 }

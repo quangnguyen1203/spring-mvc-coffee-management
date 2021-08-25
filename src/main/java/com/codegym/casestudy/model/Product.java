@@ -3,6 +3,7 @@ package com.codegym.casestudy.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "products")
@@ -10,6 +11,8 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long product_id;
+
+    @Column(unique = true)
     private String product_name;
     private Long amount;
     private double price;
@@ -25,6 +28,7 @@ public class Product {
     private Category category;
 
     public Product() {
+
     }
 
     public Product(String product_name, Long amount, double price, String image, String description, Category category) {

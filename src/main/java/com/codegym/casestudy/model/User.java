@@ -1,4 +1,6 @@
 package com.codegym.casestudy.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "users")
@@ -6,41 +8,66 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
-    private String user_name;
+    private String username;
     private String password;
     @Column(unique = true)
     private String email;
     @Column(unique = true)
     private String phoneNumber;
+
     private String image;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
     public User() {
     }
-    public User(Long user_id, String user_name, String password, Role role) {
+    public User(Long user_id, String username, String password, Role role) {
         this.user_id = user_id;
-        this.user_name = user_name;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
-    public User(Long user_id, String user_name, String password, String email, String phoneNumber, String image, Role role) {
+
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User(Long user_id, String username, String password, String email, String phoneNumber, String image, Role role) {
         this.user_id = user_id;
-        this.user_name = user_name;
+        this.username = username;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.image = image;
         this.role = role;
     }
-    public User(String user_name, String password, String email, String phoneNumber, String image, Role role) {
-        this.user_name = user_name;
+    public User(String username, String password, String email, String phoneNumber, String image, Role role) {
+        this.username = username;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.image = image;
         this.role = role;
     }
+
+    public User(String username) {
+        this.username = username;
+    }
+
+    public User(Long user_id, String username) {
+        this.user_id = user_id;
+        this.username = username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -65,11 +92,11 @@ public class User {
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
-    public String getUser_name() {
-        return user_name;
+    public String getUsername() {
+        return username;
     }
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUser_name(String username) {
+        this.username = username;
     }
     public String getPassword() {
         return password;

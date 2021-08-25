@@ -25,7 +25,15 @@ public class Voucher {
     @Column(columnDefinition = "boolean default false")
     private boolean isExpired;
 
+    @JsonIgnore
+    @Column(columnDefinition = "boolean default false")
+    private boolean isUndue;
+
     public Voucher() {
+    }
+
+    public Voucher(Long voucher_id) {
+        this.voucher_id = voucher_id;
     }
 
     public Voucher(String voucher_name, double percent_discount, String release_date, String expiration_date) {
@@ -58,6 +66,25 @@ public class Voucher {
         this.release_date = release_date;
         this.expiration_date = expiration_date;
         this.isExpired = isExpired;
+    }
+
+    public Voucher(String voucher_name, double percent_discount, String release_date, String expiration_date, boolean isExpired, boolean isUndue) {
+        this.voucher_name = voucher_name;
+        this.percent_discount = percent_discount;
+        this.release_date = release_date;
+        this.expiration_date = expiration_date;
+        this.isExpired = isExpired;
+        this.isUndue = isUndue;
+    }
+
+    public Voucher(Long voucher_id, String voucher_name, double percent_discount, String release_date, String expiration_date, boolean isExpired, boolean isUndue) {
+        this.voucher_id = voucher_id;
+        this.voucher_name = voucher_name;
+        this.percent_discount = percent_discount;
+        this.release_date = release_date;
+        this.expiration_date = expiration_date;
+        this.isExpired = isExpired;
+        this.isUndue = isUndue;
     }
 
     public Long getVoucher_id() {
@@ -106,5 +133,13 @@ public class Voucher {
 
     public void setExpired(boolean expired) {
         isExpired = expired;
+    }
+
+    public boolean isUndue() {
+        return isUndue;
+    }
+
+    public void setUndue(boolean undue) {
+        isUndue = undue;
     }
 }

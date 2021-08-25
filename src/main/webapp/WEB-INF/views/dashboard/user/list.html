@@ -31,30 +31,30 @@
                 <div class="table-responsive">
                   <table class="table table-centered mb-0 table-nowrap" id="inline-editable productList">
                     <thead>
-                      <tr>
-                        <th class="text-center">Image</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Role</th>
-                        <th class="text-center">Action</th>
-                      </tr>
+                    <tr>
+                      <th class="text-center">Image</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th>Role</th>
+                      <th class="text-center">Action</th>
+                    </tr>
                     </thead>
                     <tbody th:each="user : ${users}">
-                      <tr th:id="'row'+${user.user_id}">
-                          <input hidden th:id="${user.user_id}">
-                          <td class="text-center">
-                            <img th:src="${user.image}" alt="picture" style="width: auto; height: 100px">
-                          </td>
-                          <td th:text="${user.user_name}"></td>
-                          <td th:text="${user.email}"></td>
-                          <td th:text="${user.phoneNumber}"></td>
-                          <td th:text="${user.role.role_name}"></td>
-                          <td class="text-center">
-                            <button th:value="${user.user_id}" class="btn btn-outline-primary mr-2 edit-user-button" ><i class="far fa-edit"></i>Edit</button>
-                            <button th:value="${user.user_id}" class="btn btn-outline-danger delete-user-button" ><i class="fas fa-trash-alt"></i>Delete</button>
-                          </td>
-                      </tr>
+                    <tr th:id="'row'+${user.user_id}">
+                      <input hidden th:id="${user.user_id}">
+                      <td class="text-center">
+                        <img th:src="${user.image}" alt="picture" style="width: auto; height: 100px">
+                      </td>
+                      <td th:text="${user.username}"></td>
+                      <td th:text="${user.email}"></td>
+                      <td th:text="${user.phoneNumber}"></td>
+                      <td th:text="${user.role.name}"></td>
+                      <td class="text-center">
+                        <button th:value="${user.user_id}" class="btn btn-outline-primary mr-2 edit-user-button" ><i class="far fa-edit"></i>Edit</button>
+                        <button th:value="${user.user_id}" class="btn btn-outline-danger delete-user-button" ><i class="fas fa-trash-alt"></i>Delete</button>
+                      </td>
+                    </tr>
                     </tbody>
                   </table>
                 </div>
@@ -80,93 +80,5 @@
 <div th:replace="/dashboard/layout/editModalUser::editModalUser"></div>
 </body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
-<script>
-  function editUser(){
-    let userID = $(this).attr("value");
-    $.ajax({
-      type: "GET",
-      url: `/users/edit-user/${userID}`,
-      success:function (user){
-        $('#upID').val(user.user_id);
-        $('#upUserName').val(user.user_name);
-        $('#upEmail').val(user.email);
-        $('#upPassword').val(user.password);
-        $('#upPhoneNumber').val(user.phoneNumber);
-        $('#avatar').attr("src",user.image);
-        $('#img64').attr("value",user.image);
-        $('#upRole').val(user.role.role_id);
-        $('#editModal').modal('show');
-      }
-    })
-  }
-  function saveUser(){
-    let user_id = $("#upID").val();
-    let user_name = $("#upUserName").val();
-    let email = $("#upEmail").val();
-    let password = $("#upPassword").val();
-    let phoneNumber = $("#upPhoneNumber").val();
-    let role = $("#upRole").val();
-    let img64 = $("#img64").val();
-    let newRole = {
-      role_id : role
-    }
-    let user = {
-      user_id: user_id,
-      user_name : user_name,
-      email : email,
-      phoneNumber : phoneNumber,
-      password : password,
-      image : img64,
-      role : newRole
-    }
-    $.ajax({
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      type: "PUT",
-      data: JSON.stringify(user),
-      url: `/users/edit-user/${user_id}`,
-      success: function (user) {
-        $('#row'+user_id+ ' td').remove();
-        $('#row'+user_id).html(`
-                        <td class="text-center">
-                            <img src="${user.image}" alt="picture" style="width: auto; height: 100px">
-                        </td>
-                        <td>${user.user_name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.phoneNumber}</td>
-                        <td>${user.role.role_name}</td>
-                        <td class="text-center">
-                            <button value="${user.user_id}" class="btn btn-outline-primary mr-2 edit-user-button"><i class="fas fa-edit"></i>Edit</button>
-                            <button value="${user.user_id}" class="btn btn-outline-danger delete-user-button"><i class="fas fa-trash-alt"></i>Delete</button>
-                        </td>`);
-        $('.edit-user-button').on("click",editUser);
-        $('.delete-user-button').on("click",deleteUser);
-        $('#editModal').modal("hide");
-        App.showSuccessAlert("Edit User successfully!")
-        $("#edit-user")[0].reset();
-      }
-    })
-  }
-  function deleteUser() {
-    let userID = $(this).attr("value");
-    App.showDeleteConfirmDialog()
-            .then((result) => {
-              if (result.isConfirmed) {
-                $.ajax({
-                  type: "DELETE",
-                  url: `/users/delete-user/${userID}`,
-                  success: function () {
-                    $("#row" + userID).remove();
-                    App.showSuccessAlert("Delete user successfully !!")
-                  }
-                })
-              }
-            })
-  }
-  $(".edit-user-button").on("click",editUser);
-  $(".save-user").on("click",saveUser);
-  $(".delete-user-button").on("click",deleteUser);
-</script>
+<script th:replace="/dashboard/layout/script/user/listUser::listUser"></script>
 </html>

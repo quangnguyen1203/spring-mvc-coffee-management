@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<!--  <link rel="stylesheet" href="/resource/fontawesome-free-5.15.3-web/css/all.css">-->
   <link rel="stylesheet" href="/resource/css/sweetalert2.min.css">
   <script type="text/javascript" src="/resource/js/sweetalert2.min.js"></script>
   <script type="text/javascript" src="/resource/js/jquery-3.6.0.min.js"></script>
@@ -15,62 +14,64 @@
   <link rel="stylesheet" href="/resource/css/style.css">
   <link rel="stylesheet" href="/resource/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="/resource/js/app.js"></script>
+  <style>
+    #bg-image{
+      background-color: #f8f9fb;
+    }
+  </style>
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="row">
-    <!-- MENU -->
-    <div class="col-lg-8 border" style="height: 721px;">
-      <!-- MENU HEADER -->
-      <div class="row">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-            <span class="fs-4 "><h5>myPOS</h5></span>
-          </a>
-
-          <div class="btn btn-primary">Hello</div>
-        </header>
-      </div>
-
-      <!-- CATEGORIES -->
-      <div class="row">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mb-5">
-          <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarsExample09">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">All items</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Coffee</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled" href="#" tabindex="-1">Cold Drinks</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled" href="#" tabindex="-1">Hot Drinks</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </div>
-
+<div class="container-fluid" id="bg-image">
+  <div class="container" >
+    <div class="row">
       <!-- MENU -->
-      <div class="row overflow-auto" style="height: 520px">
-        <th:block th:each="product : ${products}">
+      <div class="col-lg-8 border" style="height: 721px;">
+        <!-- MENU HEADER -->
+        <div class="row">
+          <header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+              <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+              <span class="fs-4 "><h5>myPOS</h5></span>
+            </a>
+          </header>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="row">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light rounded mb-2">
+            <div class="container-fluid">
+              <div class="navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link btn-outline-warning allItemProduct fw-bold" aria-current="page" href="#" >All items</a>
+                  </li>
+                  <th:block th:each="category : ${categories}">
+                    <li class="nav-item">
+                      <a class="nav-link btn-outline-warning fw-bold searchByCategoryId" href="#" th:text="${category.category_name}" th:value="${category.category_id}"></a>
+                    </li>
+                  </th:block>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <!-- MENU -->
+        <div class="row overflow-auto" style="height: 590px" id="menuProduct">
+          <th:block th:each="product : ${products}">
             <div class="col-md-4 mb-5" >
               <div class="rounded card h-40 text-dark" >
                 <div class="d-flex flex-column h-80 p-2 pb-3 text-shadow-1">
                   <div class="mb-1">
-                    <h2 class="fw-bold" th:text="${product.product_name}"></h2>
+                    <h4 class="fw-bold" th:text="${product.product_name}" style="width: 150px; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis"></h4>
                     <p class="text-muted" th:text="${product.category.category_name}"></p>
                   </div>
-                  <img class="text-center img-fluid" th:src="${product.image}" style="width: 150px; height: 150px">
-                  <ul class="d-flex list-unstyled mt-0">
+                  <img class="text-center img-fluid" th:src="${product.image}" style="width: 150px; height: 150px; object-fit: cover;">
+                  <ul class="d-flex list-unstyled mt-3">
                     <li class="me-auto">
-                    <button class="btn btn-warning"><i class="fas fa-plus text-white"></i></button></li>
+                      <button class="btn btn-outline-warning addToOrder" th:value="${product.product_id}"><i class="fas fa-plus"></i></button></li>
 
                     <li class="d-flex align-items-center">
                       <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
@@ -80,110 +81,487 @@
                 </div>
               </div>
             </div>
-        </th:block>
-      </div>
-    </div>
-
-
-
-    <!-- ORDER -->
-    <div class="col-lg-4 border rounded">
-      <div class="row">
-        <div class="panel">
-          <div class="panel-heading">
-            <h4 class="d-flex justify-content-between align-items-center ml-5 mt-4 mb-3">
-              <span class="text-warning">Current Order</span>
-              <span class="badge bg-danger rounded-pill">Clear All</span>
-            </h4>
-          </div>
-          <div class="current-order panel-body overflow-auto border">
-            <ul class="list-group mb-3 ">
-              <li class=" d-flex justify-content-between p-3 pb-0 ">
-                <div>
-                  <h6 class="my-0">Product name</h6>
-                  <small class="text-muted">Brief description</small>
-                </div>
-                <div>
-                  <p><i class="fas fa-minus btn btn-outline-dark"></i>
-                    <span> 1 </span>
-                    <i class="fas fa-plus btn btn-outline-dark"></i>
-                  </p>
-                </div>
-                <span class="text-muted">$12</span>
-              </li>
-            </ul>
-          </div>
-
-
-          <div class="panel-body border">
-            <div class="d-flex justify-content-between p-3 pb-0">
-              <p>Subtotal</p>
-              <p><strong>30000đ</strong></p>
-            </div>
-            <div class="d-flex justify-content-between p-3 pb-0">
-              <p>Discounts</p>
-              <p><strong>10%</strong></p>
-            </div>
-            <div class="d-flex justify-content-between p-3 pb-0">
-              <p>Sales Tax</p>
-              <p><strong>4.500đ</strong></p>
-            </div>
-            <hr>
-            <div class="d-flex justify-content-between p-3 pb-0">
-              <h5>Subtotal</h5>
-              <h5><strong>30000đ</strong></h5>
-            </div>
-          </div>
-
-          <div class="panel-body border">
-            <div class="d-flex justify-content-between p-3 pb-0">
-              <h5>Received</h5>
-              <h5><strong>30000đ</strong></h5>
-            </div>
-            <div class="d-flex justify-content-between p-3 pb-0">
-              <h5>Balance</h5>
-              <h5><strong style="color: red;">30000đ</strong></h5>
-            </div>
-          </div>
+          </th:block>
         </div>
       </div>
-    </div>
 
-    <!-- FOOTER -->
-  </div>
-  <div class="row">
-    <footer class="footer mt-auto p-3 border rounded">
-      <div class="container">
+
+
+      <!-- ORDER -->
+      <div class="col-lg-4 border rounded">
         <div class="row">
-          <div class="col-lg-4 p-1 border-right d-flex justify-content-around align-items-center">
-            <div class="">
-              <h5>Staff name</h5>
-              <i class="fas fa-user"></i>
+          <div class="panel">
+            <div class="panel-heading">
+              <h4 class="d-flex justify-content-between align-items-center ml-5 mt-4 mb-2">
+                <span class="text-black">Current Order</span>
+                <span class="btn btn-outline-danger clearOrder">Clear All</span>
+              </h4>
             </div>
 
-            <button class="btn btn-warning text-white">Setting</button>
-          </div>
-          <div class="col-lg-4 p-1  d-flex justify-content-around align-items-center">
-            <div class="">
-              <button class="btn btn-outline-dark ">Voucher 1</button>
-              <button class="btn btn-outline-dark">Voucher 2</button>
-              <button class="btn btn-outline-dark">Voucher 3</button>
-              <button class="btn btn-outline-dark">Voucher 3</button>
-              <button class="btn btn-outline-dark">Voucher 3</button>
-              <button class="btn btn-outline-dark">Voucher 3</button>
-              <button class="btn btn-outline-dark">Voucher 3</button>
+            <div id="allList">
+              <div class="current-order panel-body overflow-auto border" id="orderProductList">
+              </div>
+
+              <div class="panel-body border">
+                <div class="d-flex justify-content-between p-3 pb-0">
+                  <p>Subtotal</p>
+                  <p><strong>0</strong></p>
+                </div>
+                <div class="d-flex justify-content-between p-3 pb-0">
+                  <p>Discounts</p>
+                  <input hidden id="voucher_id" value="">
+                  <p><strong>0</strong></p>
+                </div>
+                <div class="d-flex justify-content-between p-3 pb-0">
+                  <p>Sales Tax</p>
+                  <p><strong>0</strong></p>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between p-3 pb-0">
+                  <h5>Total</h5>
+                  <input hidden id="total" value="">
+                  <h5><strong>0</strong></h5>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-lg-4 p-1 d-flex justify-content-around align-items-center">
-            <button class="btn btn-warning w-100 h-100 text-white">
-              Payment
-            </button>
+
+
+            <div class="panel-body border">
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <h5>Received</h5>
+                <div class="d-flex justify-content-between">
+                  <input type="text" value="" id="received">
+                  <span class="input-group-text">$</span>
+                </div>
+
+              </div>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <h5>Balanced</h5>
+                <h5 id="balanced"></h5>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </footer>
+
+      <!-- FOOTER -->
+    </div>
+    <div class="row">
+      <footer class="footer mt-auto p-3 border rounded">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4 p-1 border-right d-flex justify-content-around align-items-center">
+              <div class="">
+                <h5><span th:text="${userInfo}" th:value="${userInfo}" id="userInfo"></span></h5>
+                <i class="fas fa-user"></i>
+              </div>
+
+              <a th:href="@{/logout}" class="btn btn-warning text-white">Logout</a>
+            </div>
+            <div class="col-lg-4 p-1  d-flex justify-content-around align-items-center">
+              <div class="" >
+                <th:block th:each="voucher : ${vouchers}">
+                  <button class="btn btn-outline-warning addToVoucher" th:text="${voucher.voucher_name}" th:value="${voucher.voucher_id}"></button>
+                </th:block>
+              </div>
+            </div>
+            <div class="col-lg-4 p-1 d-flex justify-content-around align-items-center">
+              <button class="btn btn-warning w-100 h-100 text-white" id="createToOrder">
+                Payment
+              </button>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   </div>
 </div>
-<script></script>
+<script>
+
+  let order = {
+    total_price: 0,
+    order_time: 0,
+    order_date: 0,
+    products: [],
+    voucher: {
+      voucher_id: 0,
+      voucher_name: "",
+      percent_discount: 0
+    },
+    user: {
+      username: ""
+    }
+  };
+
+  function searchProductByCategoryId(){
+    let categoryId = $(this).attr("value");
+    $.ajax({
+      type: "GET",
+      url: `/app/menuProductByCategory/${categoryId}`,
+      success: function (product){
+        console.log(product)
+        let content = "";
+        for (let i = 0; i < product.length ; i++) {
+          content += `
+                  <div class="col-md-4 mb-5" >
+                    <div class="rounded card h-40 text-dark" >
+                      <div class="d-flex flex-column h-80 p-2 pb-3 text-shadow-1">
+                        <div class="mb-1">
+                          <h4 class="fw-bold"  style="width: 150px; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis">${product[i].product_name}</h4>
+                          <p class="text-muted" >${product[i].category.category_name}</p>
+                        </div>
+                        <img class="text-center img-fluid" src="${product[i].image}" style="width: 150px; height: 150px; object-fit: cover;">
+                        <ul class="d-flex list-unstyled mt-3">
+                          <li class="me-auto">
+                            <button class="btn btn-outline-warning addToOrder" value="${product[i].product_id}"value="${product.product_id}"><i class="fas fa-plus "></i></button></li>
+
+                          <li class="d-flex align-items-center">
+                            <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                            <strong><small >${product[i].price}</small> $</strong>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>`;
+        }
+        $('#menuProduct').html(content);
+        $(".addToOrder").on("click",function (){
+          let id = $(this).attr("value");
+          getProduct(id);
+        })
+      }
+    })
+  }
+
+  function allItems(){
+    $.ajax({
+      type: "GET",
+      url: `/app/allItem`,
+      success: function (product){
+        console.log(product)
+        let content = "";
+        for (let i = 0; i < product.length ; i++) {
+          content += `
+                  <div class="col-md-4 mb-5" >
+                    <div class="rounded card h-40 text-dark" >
+                      <div class="d-flex flex-column h-80 p-2 pb-3 text-shadow-1">
+                        <div class="mb-1">
+                          <h4 class="fw-bold"  style="width: 150px; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis">${product[i].product_name}</h4>
+                          <p class="text-muted" >${product[i].category.category_name}</p>
+                        </div>
+                        <img class="text-center img-fluid" src="${product[i].image}" style="width: 150px; height: 150px; object-fit: cover;">
+                        <ul class="d-flex list-unstyled mt-3">
+                          <li class="me-auto">
+                            <button class="btn btn-outline-warning addToOrder" value="${product[i].product_id}"><i class="fas fa-plus "></i></button></li>
+                          <li class="d-flex align-items-center">
+                            <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                            <strong><small >${product[i].price}</small> $</strong>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>`;
+        }
+        $('#menuProduct').html(content);
+        $(".addToOrder").on("click",function (){
+          let id = $(this).attr("value");
+          getProduct(id);
+        })
+      }
+    })
+  }
+
+  function drawOrder() {
+    let content = "<div class=\"current-order panel-body overflow-auto border\">";
+    let total = 0;
+    if (order.products.length !== 0){
+      for (let i = 0; i < order.products.length; i++) {
+        total += order.products[i].price * order.products[i].amount;
+        content += `
+              <ul class="list-group mb-3 ">
+                <li class=" d-flex justify-content-between p-3 pb-0 ">
+                  <div>
+                    <h6 class="my-0" style="width: 150px; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis">${order.products[i].product_name}</h6>
+                  </div>
+                  <div>
+                    <p>
+                    <i value="${order.products[i].product_id}" class="fas fa-minus btn btn-outline-dark subToProduct"></i>
+                      <span class="w-50 text-center"> ${order.products[i].amount}</span>
+                      <i value="${order.products[i].product_id}" class="fas fa-plus btn btn-outline-dark addMoreProduct"></i>
+                    </p>
+                  </div>
+                  <span class="text-muted" >${order.products[i].price*order.products[i].amount} $</span>
+                </li>
+              </ul>`;
+      }
+      content += "</div>";
+      order.total_price = total;
+      let subtotal = order.total_price;
+      let voucher_id = order.voucher.voucher_id;
+      let discount = order.voucher.percent_discount;
+      let tax = Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100;
+      let total_product = Math.round((((order.total_price *(1- order.voucher.percent_discount/100)) + (Math.round((((order.total_price*(1-order.voucher.percent_discount/100))*0.1) + Number.EPSILON) * 100) / 100)) + Number.EPSILON)* 100) / 100 ;
+
+      content += `
+            <div class="panel-body border">
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Subtotal</p>
+                <p><strong>${subtotal}</strong></p>
+              </div>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Discounts</p>
+                <input hidden id="voucher_id" value="${voucher_id}">
+                <p><strong>${discount} %</strong></p>
+              </div>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Sales Tax</p>
+                <p><strong>${tax} $</strong></p>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <h5>Total</h5>
+                <input hidden id="total" value="${total_product}">
+                <h5><strong>${total_product} $</strong></h5>
+              </div>
+            </div>
+      `;
+      order.total_price = total_product;
+
+      $('#allList').html(content);
+
+      $(".addMoreProduct").on("click",function (){
+        let id = $(this).attr("value");
+        getProduct(id);
+      })
+
+      $(".subToProduct").on("click",function (){
+        let id = $(this).attr("value");
+        subProduct(id);
+      })
+    }
+  }
+
+  function emptyOrder(){
+    let content = `<div class="current-order panel-body overflow-auto border" id="orderProductList">
+            </div>
+
+            <div class="panel-body border">
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Subtotal</p>
+                <p><strong>0</strong></p>
+              </div>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Discounts</p>
+                <p><strong>0</strong></p>
+              </div>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <p>Sales Tax</p>
+                <p><strong>0</strong></p>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between p-3 pb-0">
+                <h5>Total</h5>
+                <h5><strong>0</strong></h5>
+              </div>
+            </div>`;
+    $('#allList').html(content);
+  }
+
+  function checkSelected(arr, name){
+    for (let i = 0; i < arr.length; i++){
+      if (arr[i].product_name === name){
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  function getProduct(id){
+    $.ajax({
+      type: "GET",
+      url: `/products/findProduct/${id}`,
+      success: function (data){
+        let productName = data.product_name;
+        let indexProduct = checkSelected(order.products,productName);
+        if (indexProduct === -1){
+          order.products.push(data);
+        } else {
+          order.products[indexProduct].amount++;
+        }
+        drawOrder(order);
+      }
+    })
+  }
+
+  function subProduct(id){
+    $.ajax({
+      type: "GET",
+      url: `/products/findProduct/${id}`,
+      success: function (data){
+        let productName = data.product_name;
+        let indexProduct = checkSelected(order.products,productName);
+        if (order.products[indexProduct].amount === 1){
+          order.products.splice(indexProduct,1);
+          if (order.products.length === 0){
+            emptyOrder(order);
+          } else {
+            drawOrder(order);
+          }
+        }
+        if(order.products[indexProduct].amount > 1){
+          order.products[indexProduct].amount--;
+          drawOrder(order);
+        }
+      }
+    })
+  }
+
+  function deleteOrder(){
+    order.products = [];
+    order.voucher.voucher_id = 0;
+    order.voucher.voucher_name = "";
+    order.voucher.percent_discount = 0;
+    order.total_price = 0;
+    order.order_date = "";
+    order.order_time = "";
+    order.user.username = "";
+    $("#received").val("");
+    $("#balanced").html("");
+    emptyOrder(order)
+  }
+
+  function getToday(){
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  function getTime(){
+    let time = new Date();
+    let hh = time.getHours();
+    let mm = time.getMinutes();
+    let ss = time.getSeconds();
+    return `${hh}:${mm}:${ss}`;
+  }
+
+  function createOrder(){
+    let order_date = getToday();
+    let order_time = getTime();
+    let voucher = $("#voucher_id").val();
+    let total_price = $('#total').val();
+
+    let newVoucher = {
+      voucher_id : voucher
+    }
+
+    let user = $('#userInfo').attr("value");
+    let newUser = {
+      username :user
+    }
+
+    let newOrder = {
+      total_price: total_price,
+      order_date: order_date,
+      order_time: order_time,
+      voucher: newVoucher,
+      user : newUser
+    }
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+    }).then((result) =>{
+      if (result.isConfirmed){
+        $.ajax({
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          type: "POST",
+          data: JSON.stringify(newOrder),
+          url: "/app/saveOrder",
+          // success: function (data){
+          //   console.log(data)
+          //   deleteOrder();
+          //   App.showSuccessAlert("Create new order successfully!");
+          // }
+        }).done((resp) => {
+          newOrder = resp;
+          for (let i = 0; i < order.products.length ; i++) {
+            let newOrderDetail = {
+              order :{
+                order_id : newOrder.order_id
+              },
+              product_name: order.products[i].product_name,
+              amount: order.products[i].amount,
+              price: order.products[i].price
+            }
+            $.ajax({
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              type: "POST",
+              data: JSON.stringify(newOrderDetail),
+              url: "/orderDetail/saveOrderDetail",
+              // success: function (data){
+              //   console.log(data)
+              //   deleteOrder();
+              //   App.showSuccessAlert("Create new order successfully!");
+              // }
+            }).done((resp) => {
+              deleteOrder();
+              App.showSuccessAlert("Create new order successfully!");
+            })
+          }
+        })
+      }
+    })
+  }
+
+  function getVoucher(id){
+    $.ajax({
+      type: "GET",
+      url: `/vouchers/findVoucher/${id}`,
+      success:function (data){
+        order.voucher = data;
+        drawOrder();
+      }
+    })
+  }
+
+  $("#received").on("change",function (){
+    let balanced = Math.round((($("#received").val() - $("#total").val()) + Number.EPSILON)*100)/100;
+
+    $("#balanced").html(
+            `<strong style="color: red;" >${balanced}</strong> $`
+    )
+  })
+
+  $(".addToVoucher").on("click",function (){
+    let id = $(this).attr("value");
+    getVoucher(id)
+  })
+
+  $(".addToOrder").on("click",function (){
+    let id = $(this).attr("value");
+    getProduct(id);
+  })
+
+  $(".clearOrder").on("click",deleteOrder);
+
+  $('.searchByCategoryId').on('click',searchProductByCategoryId);
+
+  $('.allItemProduct').on('click',allItems);
+
+  $("#createToOrder").on("click",createOrder);
+</script>
 </body>
 </html>

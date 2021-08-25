@@ -4,10 +4,10 @@
     <div class="navbar-custom">
         <ul class="list-unstyled topnav-menu float-right mb-0">
             <li class="dropdown notification-list">
-                <a th:href="@{/products}" class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <img src="/assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
+                <a th:href="@{/dashboard}" class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <img src="/assets/images/admin-avatar.jpg" alt="user-image" class="rounded-circle">
                     <span class="pro-user-name ml-1">
-                                Thompson   <i class="mdi mdi-chevron-down"></i>
+                                <span th:text="${userInfo}"> <i class="mdi mdi-chevron-down"></i>
                             </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -16,30 +16,15 @@
                         <h6 class="text-overflow m-0">Welcome !</h6>
                     </div>
 
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="mdi mdi-account-outline"></i>
-                        <span>Profile</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="mdi mdi-settings-outline"></i>
-                        <span>Settings</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="mdi mdi-lock-outline"></i>
-                        <span>Lock Screen</span>
-                    </a>
 
                     <div class="dropdown-divider"></div>
 
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="mdi mdi-logout-variant"></i>
-                        <span>Logout</span>
+<!--                    <div sec:authorize="isAuthenticated()">-->
+<!--                        <a th:href="@{/home}">Home</a> | <a th:href="@{/logout}">Logout</a>-->
+<!--                    </div>-->
+                    <a th:href="@{/logout}" href="javascript:void(0);" class="dropdown-item notify-item">
+                         <p> <i class="mdi mdi-logout-variant"></i> Logout</p>
                     </a>
 
                 </div>
@@ -109,10 +94,24 @@
                     <li class="menu-title">Navigation</li>
 
                     <li>
-                        <a  th:href="@{/products}" class="waves-effect">
+                        <a  th:href="@{/dashboard}" class="waves-effect">
                             <i class="ion-md-speedometer"></i>
                             <span >  Dashboard  </span>
                         </a>
+                    </li>
+
+                    <li>
+                        <a href="javascript: void(0);" class="waves-effect">
+                            <i class="fas fa-money-check-alt"></i>
+                            <span> Order </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a th:href="@{/orders}">List Order</a></li>
+                            <li><a th:href="@{/orderDetail}">List OrderDetail</a></li>
+
+<!--                            <li><a th:href="@{/products/hiddenProduct}">Hidden Product</a></li>-->
+                        </ul>
                     </li>
 
                     <li>
@@ -147,8 +146,7 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <ul class="nav-second-level" aria-expanded="false">
-                            <li><a href="#">List Category</a></li>
-                            <li><a href="#">Create Category</a></li>
+                            <li><a th:href="@{/categories/listCategory}">List Category</a></li>
                         </ul>
                     </li>
 
@@ -161,7 +159,16 @@
                         <ul class="nav-second-level" aria-expanded="false">
                             <li><a th:href="@{/vouchers/listVoucher}">List Voucher</a></li>
                             <li><a th:href="@{/vouchers/create-voucher}">Create Voucher</a></li>
-                            <li><a th:href="@{/vouchers/hiddenVoucher}">Expired Voucher</a></li>
+                            <li>
+                                <a href="javascript: void(0);" class="waves-effect">
+                                    <span>Type Voucher </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a th:href="@{/vouchers/listExpiredVoucher}">Expired Voucher</a></li>
+                                    <li><a th:href="@{/vouchers/listUndueVoucher}">Undue Voucher</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>

@@ -38,7 +38,7 @@
                                     <label>Role</label>
                                     <select class="form-control" name="role" id="role" value="">
                                         <option value="">Choose Role</option>
-                                        <option th:each="r : ${roles}" th:value="${r.role_id}" th:text="${r.role_name}"></option>
+                                        <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.name}"></option>
                                     </select>
                                 </div>
                                 <div>
@@ -48,7 +48,7 @@
                                     <img id="avatar" class="avatar" style="width: auto; height: 150px">
                                 </div>
                                 <div class="form-group text-right mb-0">
-                                    <button class="btn btn-primary waves-effect waves-light mr-1" id="create-user-button" onclick="createUser()" type="button">
+                                    <button class="btn btn-primary waves-effect waves-light mr-1" id="create-user-button" type="button">
                                         Submit
                                     </button>
                                     <button type="reset" class="btn btn-secondary waves-effect waves-light">
@@ -73,40 +73,5 @@
 </div>
 </body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
-<script>
-    function createUser(){
-        let user_name = $("#user_name").val();
-        let password = $("#password").val();
-        let email = $("#email").val();
-        let phoneNumber = $("#phone-number").val();
-        let role = $("#role").val();
-        let img64 = $("#img64").val();
-        console.log(user_name);
-        let newRole = {
-            role_id : role
-        }
-        let user = {
-            user_name : user_name,
-            password : password,
-            email : email,
-            phoneNumber : phoneNumber,
-            image : img64,
-            role : newRole
-        }
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            type: "POST",
-            data: JSON.stringify(user),
-            url: "/users/create-user",
-            success: function (){
-                $("#create-user-form")[0].reset();
-                $("#avatar").attr("src","");
-                App.showSuccessAlert("Create new user successfully!");
-            }
-        })
-    }
-</script>
+<script th:replace="/dashboard/layout/script/user/createUser::createUser"></script>
 </html>

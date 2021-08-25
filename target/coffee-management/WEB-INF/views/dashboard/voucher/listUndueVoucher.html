@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/dashboard/layout/head::head">
+</head>
+<body>
+<!-- Begin page -->
+<div id="wrapper">
+  <th:block th:replace="/dashboard/layout/side-bar::side-bar"></th:block>
+  <!-- ============================================================== -->
+  <!-- Start Page Content here -->
+  <!-- ============================================================== -->
+  <div class="content-page">
+    <div class="content">
+      <!-- Start Content-->
+      <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+          <div class="col-12" style="margin-top: 10px;">
+            <div class="page-title-box">
+              <h4 class="page-title">Voucher Table</h4>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <!-- end page title -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="header-title mb-4">Undue Voucher</h4>
+                <div class="table-responsive">
+                  <table class="table table-centered mb-0 table-nowrap" id="inline-editable voucherList">
+                    <thead>
+                    <tr>
+                      <th>Voucher Name</th>
+                      <th class="text-center">Percent Discount (%)</th>
+                      <th>Release Date</th>
+                      <th>Expiration Date</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="voucher: ${undueVouchers}">
+                    <tr th:id="'row'+${voucher.voucher_id}">
+                      <input hidden th:id="${voucher.voucher_id}">
+                      <td th:text="${voucher.voucher_name}"></td>
+                      <td class="text-center" th:text="${voucher.percent_discount}"></td>
+                      <td th:text="${voucher.release_date}"></td>
+                      <td th:text="${voucher.expiration_date}"></td>
+                      <td class="text-center">
+                        <button th:value="${voucher.voucher_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="far fa-edit"></i>Edit</button>
+                        <button th:value="${voucher.voucher_id}" class="btn btn-outline-danger mr-2 delete-button" ><i class="far fa-edit"></i>Delete</button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- end .table-responsive-->
+              </div>
+              <!-- end card-body -->
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+      </div>
+      <!-- end container-fluid -->
+    </div>
+    <!-- end content -->
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Page content -->
+  <!-- ============================================================== -->
+</div>
+<!-- END wrapper -->
+<div th:replace="/dashboard/layout/editModalVoucher::editModalVoucher"></div>
+</body>
+<th:block th:replace="/dashboard/layout/script::script"></th:block>
+<script>
+  function editVoucher(){
+    let voucherID = $(this).attr("value");
+    console.log(voucherID);
+    $.ajax({
+      type: "GET",
+      url: `/vouchers/edit-voucher/${voucherID}`,
+      success:function (voucher){
+        $('#upID').val(voucher.voucher_id);
+        $('#upVoucherName').val(voucher.voucher_name);
+        $('#upPercentDiscount').val(voucher.percent_discount);
+        $('#upReleaseDate').val(voucher.release_date);
+        $('#upExpirationDate').val(voucher.expiration_date);
+        $('#editModal').modal('show');
+      }
+    })
+  }
+  function saveVoucher(){
+    let voucher_id = $("#upID").val();
+    let voucher_name = $("#upVoucherName").val();
+    let percent_discount = $("#upPercentDiscount").val();
+    let release_date = $("#upReleaseDate").val();
+    let expiration_date = $("#upExpirationDate").val();
+    let voucher = {
+      voucher_id:voucher_id,
+      voucher_name : voucher_name,
+      percent_discount : percent_discount,
+      release_date : release_date,
+      expiration_date : expiration_date
+    }
+    $.ajax({
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      type: "PUT",
+      data: JSON.stringify(voucher),
+      url: `/vouchers/edit/${voucher_id}`,
+      success: function (voucher) {
+        $('#row'+voucher_id+ ' td').remove();
+        $('#row'+voucher_id).html(`
+                        <td>${voucher.voucher_name}</td>
+                        <td class="text-center">${voucher.percent_discount}</td>
+                        <td>${voucher.release_date}</td>
+                        <td>${voucher.expiration_date}</td>
+                        <td class="text-center">
+                            <button value="${voucher.voucher_id}" class="btn btn-outline-primary mr-2 edit-button" ><i class="fas fa-edit"></i>Edit</button>
+                            <button value="${voucher.voucher_id}" class="btn btn-outline-danger delete-button" ><i class="fas fa-trash-alt"></i>Hidden</button>
+                        </td>`);
+        $(".edit-button").on("click",editVoucher);
+        $(".delete-button").on("click",deleteConfirm);
+        $('#editModal').modal("hide");
+        App.showSuccessAlert("Edit product successfully!")
+        $("#edit-voucher")[0].reset();
+      }
+    })
+  }
+  function deleteConfirm() {
+    let voucherID = $(this).attr("value");
+    App.showDeleteConfirmDialog()
+            .then((result) => {
+              if (result.isConfirmed) {
+                $.ajax({
+                  type: "DELETE",
+                  url: `/vouchers/${voucherID}`,
+                  success: function () {
+                    $("#row" + voucherID).remove();
+                    Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                    )
+                  }
+                })
+              }
+            })
+  }
+  $(".edit-button").on("click",editVoucher);
+  $(".save-voucher").on("click",saveVoucher);
+  $(".delete-button").on("click",deleteConfirm);
+</script>
+</html>

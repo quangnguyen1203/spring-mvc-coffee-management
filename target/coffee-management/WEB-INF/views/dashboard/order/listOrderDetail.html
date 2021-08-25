@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/dashboard/layout/head::head">
+
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+  <th:block th:replace="/dashboard/layout/side-bar::side-bar"></th:block>
+
+  <!-- ============================================================== -->
+  <!-- Start Page Content here -->
+  <!-- ============================================================== -->
+
+  <div class="content-page">
+    <div class="content">
+
+      <!-- Start Content-->
+      <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+          <div class="col-12" style="margin-top: 10px;">
+            <div class="page-title-box">
+              <h4 class="page-title">Order Table</h4>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <!-- end page title -->
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="header-title mb-4">Order List</h4>
+                <div class="table-responsive">
+                  <table class="table table-centered mb-0 table-nowrap" id="orderList" style="border-style: none !important;">
+                    <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Order</th>
+                      <th>Product Name</th>
+                      <th>Amount</th>
+                      <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                      <th:block th:each="orderDetail : ${orderDetails}">
+                        <tr>
+                          <td th:text="${orderDetail.orderDetail_id}"></td>
+                          <td th:text="${orderDetail.order.order_id}"></td>
+                          <td th:text="${orderDetail.product_name}"></td>
+                          <td th:text="${orderDetail.amount}"></td>
+                          <td th:text="${orderDetail.price}"></td>
+                        </tr>
+                      </th:block>
+                    </tbody>
+
+                  </table>
+                </div>
+                <!-- end .table-responsive-->
+              </div>
+              <!-- end card-body -->
+            </div>
+            <!-- end card -->
+          </div>
+          <!-- end col -->
+        </div>
+        <!-- end row -->
+
+      </div>
+      <!-- end container-fluid -->
+
+    </div>
+    <!-- end content -->
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- End Page content -->
+  <!-- ============================================================== -->
+
+</div>
+<!-- END wrapper -->
+<div th:replace="/dashboard/layout/editModalProduct::editModalProduct"></div>
+</body>
+<th:block th:replace="/dashboard/layout/script::script"></th:block>
+<script>
+  $(document).ready( function () {
+    $('#orderList').DataTable();
+  } );
+</script>
+
+</html>

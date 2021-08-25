@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Percent Discount (%)<span class="text-danger">*</span></label>
-                                    <input type="text" name="percent_discount" parsley-trigger="change" required="" placeholder="Enter percent discount" class="form-control" id="percent_discount">
+                                    <input type="number" name="percent_discount" parsley-trigger="change" required="" placeholder="Enter percent discount" class="form-control" id="percent_discount">
                                 </div>
                                 <div class="form-group">
                                     <label>Release Date<span class="text-danger">*</span></label>
@@ -73,35 +73,14 @@
 </div>
 </body>
 <th:block th:replace="/dashboard/layout/script::script"></th:block>
+<script th:replace="/dashboard/layout/script/voucher/createVoucher::createVoucher"></script>
 <script>
-    function createVoucher(){
-        let voucher_name = $("#voucher_name").val();
-        let percent_discount = $("#percent_discount").val();
-        let release_date = $("#release_date").val();
-        let expiration_date = $("#expiration_date").val();
-
-        let voucher = {
-            voucher_name: voucher_name,
-            percent_discount: percent_discount,
-            release_date : release_date,
-            expiration_date : expiration_date
-        }
-
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            type: "POST",
-            data: JSON.stringify(voucher),
-            url: "/vouchers/create-voucher",
-            success: function (){
-                $("#create-form")[0].reset();
-                App.showSuccessAlert("Create new voucher successfully!");
-            }
-        })
+    function updateDate(){
+        let date = $("#release_date").val();
+        let release_date = date.split("-");
+        $("#expiration_date").val(release_date[0]+"-"+release_date[1]+"-"+release_date[2]);
     }
 
-    $("#create-button").on("click",createVoucher);
+    $('#release_date').on("change",updateDate);
 </script>
 </html>

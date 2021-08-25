@@ -1,0 +1,44 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script th:fragment="createProduct">
+
+  function createProduct(){
+    let product_name = $("#product_name").val();
+    let price = $("#price").val();
+    let description = $("#description").val();
+    let category = $("#category").val();
+    let img64 = $("#img64").val();
+
+    let newCategory = {
+      category_id : category
+    }
+
+    let product = {
+      product_name : product_name,
+      price : price,
+      description : description,
+      image : img64,
+      category : newCategory
+    }
+
+      if ($("#create-form").valid()){
+          $.ajax({
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              type: "POST",
+              data: JSON.stringify(product),
+              url: "/products/create-product"
+          }).done(function (){
+              $("#create-form")[0].reset();
+              $("#avatar").attr("src","");
+              App.showSuccessAlert("Create new product successfully!");
+          }).fail(()=>{
+              App.showErrorAlert("Something went wrong!");
+          })
+      }
+  }
+
+  $("#create-button").on("click",createProduct);
+</script>
+</html>>

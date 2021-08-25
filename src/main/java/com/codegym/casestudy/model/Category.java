@@ -21,6 +21,10 @@ public class Category {
         this.category_id = category_id;
     }
 
+    public Category(String category_name) {
+        this.category_name = category_name;
+    }
+
     public Category(Long category_id, String category_name) {
         this.category_id = category_id;
         this.category_name = category_name;

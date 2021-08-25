@@ -1,41 +1,66 @@
 package com.codegym.casestudy.model;
+
+
 import javax.persistence.*;
 import java.util.List;
+
 @Entity
 @Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long role_id;
-    private String role_name;
+    private Long id;
+
+    private String code;
+    private String name;
+
     @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
     private List<User> users;
+
     public Role() {
     }
-    public Role(Long role_id, String role_name) {
-        this.role_id = role_id;
-        this.role_name = role_name;
-    }
-    public Role(Long role_id, String role_name, List<User> users) {
-        this.role_id = role_id;
-        this.role_name = role_name;
+
+    public Role(Long id, String code, String name, List<User> users) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
         this.users = users;
     }
-    public Long getRole_id() {
-        return role_id;
+
+    public Role(String code, String name, List<User> users) {
+        this.code = code;
+        this.name = name;
+        this.users = users;
     }
-    public void setRole_id(Long role_id) {
-        this.role_id = role_id;
+
+    public Long getId() {
+        return id;
     }
-    public String getRole_name() {
-        return role_name;
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
+
+    public String getCode() {
+        return code;
     }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public List<User> getUsers() {
         return users;
     }
+
     public void setUsers(List<User> users) {
         this.users = users;
     }

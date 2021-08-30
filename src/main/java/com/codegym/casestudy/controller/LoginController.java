@@ -18,16 +18,6 @@ public class LoginController {
     private String getPrincipal() {
         String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null || !authentication.isAuthenticated()) {
-//            return null;
-//        }
-//        if (authentication.getPrincipal() == "anonymousUser") {
-//            return "anonymousUser";
-//        }
-//        return ((UserPrincipal) authentication.getPrincipal()).getUsername();
-
         if (principal instanceof UserDetails) {
             userName = ((UserDetails) principal).getUsername();
         } else {

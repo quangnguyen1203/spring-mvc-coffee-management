@@ -20,7 +20,6 @@ public class CategoryController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ModelAndView homePage() {
-        //        modelAndView.addObject("products",productService.findAll());
         return new ModelAndView("/dashboard/home");
     }
 

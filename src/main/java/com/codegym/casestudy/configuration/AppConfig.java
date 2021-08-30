@@ -105,15 +105,16 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 //        dataSource.setPassword("admin");
 //        return dataSource;
 //    }
-@Bean
-public DataSource dataSource() {
-    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-    dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-    dataSource.setUrl("jdbc:mysql://pxukqohrckdfo4ty.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/b625t0sxfs48f3hc");
-    dataSource.setUsername("n85i6wkleyje451q");
-    dataSource.setPassword("pzkk01vv3j9of9e3");
-    return dataSource;
-}
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://pxukqohrckdfo4ty.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/b625t0sxfs48f3hc");
+        dataSource.setUsername("n85i6wkleyje451q");
+        dataSource.setPassword("pzkk01vv3j9of9e3");
+        return dataSource;
+    }
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {

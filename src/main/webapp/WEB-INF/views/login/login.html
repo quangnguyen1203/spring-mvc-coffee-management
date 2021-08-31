@@ -29,6 +29,7 @@
                     <label for="username" class="label">Username</label>
                     <input type="text" class="input" id="username" name="username" placeholder="Username" required autofocus>
                 </div>
+
                 <div class="group">
                     <label for="password" class="label">Password</label>
                     <input type="password" class="input" id="password" name="password" placeholder="Password" required>
@@ -73,9 +74,7 @@
         });
     }
 
-    $("#btnLogin").on("click", () => {
-        loginHandle();
-    });
+    $("#btnLogin").on("click", loginHandle);
 </script>
 </body>
 </html>

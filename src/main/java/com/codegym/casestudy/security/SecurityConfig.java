@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.cors();
+    //    http.cors();
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/api/login", "/resource/**", "/api/register", "/register").permitAll()
                 .anyRequest().authenticated()

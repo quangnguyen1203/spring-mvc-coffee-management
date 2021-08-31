@@ -140,11 +140,10 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
                 .resourceChain(false);
     }
 
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**").allowedOrigins("http://localhost:8080")
+  /*      registry.addMapping("/api/**").allowedOrigins("http://localhost:8080")
                 .allowedOrigins("http://pos-coffee-take-away.herokuapp.com/")
-                .allowedOrigins("https://pos-coffee-take-away.herokuapp.com/");
+                .allowedOrigins("https://pos-coffee-take-away.herokuapp.com");*/
     }
 }
